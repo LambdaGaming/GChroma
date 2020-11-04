@@ -5,18 +5,18 @@
 
 using namespace GarrysMod::Lua;
 
-GChroma* chromainit;
-auto init = chromainit->Initialize();
-
 /*
 	GChroma_SetMouseColor( Vector color )
 	Arguments:
 		color - Lua RGB color table converted to a vector
 	Returns: boolean success
-	Example: GChroma_SetMouseColor( Color( 0, 0, 255 ):ToVector() )
+	Example: GChroma_SetMouseColor( Vector( 0, 0, 255 ) )
 */
 LUA_FUNCTION( GChroma_SetMouseColor )
 {
+	GChroma* chromainit;
+	chromainit = new GChroma();
+	auto init = chromainit->Initialize();
 	LUA->CheckType( 1, GarrysMod::Lua::Type::Vector );
 	Vector color = LUA->GetVector( 1 );
 	if ( init )
@@ -31,6 +31,7 @@ LUA_FUNCTION( GChroma_SetMouseColor )
 		LUA->PushBool( false );
 		return 1;
 	}
+	delete chromainit;
 	LUA->PushBool( true );
 	return 1;
 }
@@ -42,12 +43,16 @@ LUA_FUNCTION( GChroma_SetMouseColor )
 */
 LUA_FUNCTION( GChroma_ResetAll )
 {
+	GChroma* chromainit;
+	chromainit = new GChroma();
+	auto init = chromainit->Initialize();
 	if ( init )
 	{
 		chromainit->ResetEffects( ALL_DEVICES );
 		LUA->PushBool( true );
 		return 1;
 	}
+	delete chromainit;
 	LUA->PushBool( false );
 	return 1;
 }
