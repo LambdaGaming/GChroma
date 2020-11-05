@@ -54,7 +54,6 @@ BOOL GChroma::IsDeviceConnected( RZDEVICEID DeviceId )
 	return FALSE;
 }
 
-
 GChroma::GChroma() :m_ChromaSDKModule( nullptr )
 {
 }
@@ -178,12 +177,7 @@ void GChroma::ResetEffects( size_t DeviceType )
 	}
 }
 
-//----
-//All the code above is provided by the developer example, you can try to understand it or just use it
-
-//Let's start with a Keyboard effect
-
-BOOL GChroma::example_keyboard() {
+//BOOL GChroma::example_keyboard() {
 
 	//Choose one of the following methods by just deleting the first and last line :)
 
@@ -229,20 +223,20 @@ BOOL GChroma::example_keyboard() {
 	For key-based-effect delete this line*/
 
 
-	return FALSE;
-}
+//	return FALSE;
+//}
 
 BOOL GChroma::SetMouseColor( COLORREF color )
 {
-	ChromaSDK::Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {}; // Initialize
+	Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {}; // Initialize
 
-	for ( size_t row = 0; row < ChromaSDK::Mouse::MAX_ROW; row++ ) {
-		for ( size_t col = 0; col < ChromaSDK::Mouse::MAX_COLUMN; col++ ) {
+	for ( size_t row = 0; row < Mouse::MAX_ROW; row++ ) {
+		for ( size_t col = 0; col < Mouse::MAX_COLUMN; col++ ) {
 			MouseEffect.Color[row][col] = color; // Filling the whole matrix with the color orange == Setting background to orange
 		}
 	}
 
-	auto Result_Mouse = CreateMouseEffect( ChromaSDK::Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
+	auto Result_Mouse = CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
 	return Result_Mouse;
 }
 
@@ -253,38 +247,60 @@ BOOL GChroma::SetMouseColorEx( COLORREF color, size_t row, size_t col )
 	// Source: http://developer.razerzone.com/chroma/razer-chroma-led-profiles/
 	// Take the super mouse as standard, so your program will work with every mouse out of the box 
 
-	ChromaSDK::Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {};
+	Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {};
 	MouseEffect.Color[row][col] = color;
-	auto Result_Mouse = CreateMouseEffect( ChromaSDK::Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
+	auto Result_Mouse = CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
 	return Result_Mouse;
 }
 
-BOOL GChroma::example_mousemat()
+BOOL GChroma::SetKeyboardColor( COLORREF color )
 {
+	Keyboard::CUSTOM_EFFECT_TYPE KeyboardEffect = {};
 
-	ChromaSDK::Mousepad::CUSTOM_EFFECT_TYPE Example_mousemat_effect = {}; // Initialize
-
-	//The mousepad effect is initialized as a 1 dimensional matrix/array
-	//e.g. the Razer logo is [14]
-	// Source: http://developer.razerzone.com/chroma/razer-chroma-led-profiles/
-
-	for ( size_t count = 0; count < ChromaSDK::Mousepad::MAX_LEDS; count++ ) {
-		Example_mousemat_effect.Color[count] = ORANGE;  //Filling the whole matrix with the color orange == Setting background to orange
+	for ( size_t row = 0; row < Keyboard::MAX_ROW; row++ ) {
+		for ( size_t col = 0; col < Keyboard::MAX_COLUMN; col++ ) {
+			KeyboardEffect.Color[row][col] = color;
+		}
 	}
 
-	//a little bit advancec ;-)
-	//creating a simple(!) loading animation
-	RZRESULT Result_Mousemat = 0;
-	for ( size_t count = 0; count < ChromaSDK::Mousepad::MAX_LEDS; count++ )
-	{
-		Example_mousemat_effect.Color[count] = BLUE;
-		Sleep( 500 );
-		Result_Mousemat = CreateMousepadEffect( ChromaSDK::Mousepad::CHROMA_CUSTOM, &Example_mousemat_effect, nullptr );
-
-	} //if you want to work with animation, take a look at the frames that the ChromaSDK provides :)
-
-	return Result_Mousemat;
+	auto Result_Keyboard = CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM, &KeyboardEffect, nullptr );
+	return Result_Keyboard;
 }
+
+BOOL GChroma::SetKeyboardColorEx( COLORREF color, size_t row, size_t col )
+{
+	Keyboard::CUSTOM_KEY_EFFECT_TYPE KeyboardEffect = {};
+	KeyboardEffect.Color[row][col] = color;
+	auto Result_Keyboard = CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM, &KeyboardEffect, nullptr );
+	return Result_Keyboard;
+}
+
+//BOOL GChroma::example_mousemat()
+//{
+//
+//	ChromaSDK::Mousepad::CUSTOM_EFFECT_TYPE Example_mousemat_effect = {}; // Initialize
+//
+//	//The mousepad effect is initialized as a 1 dimensional matrix/array
+//	//e.g. the Razer logo is [14]
+//	// Source: http://developer.razerzone.com/chroma/razer-chroma-led-profiles/
+//
+//	for ( size_t count = 0; count < ChromaSDK::Mousepad::MAX_LEDS; count++ ) {
+//		Example_mousemat_effect.Color[count] = ORANGE;  //Filling the whole matrix with the color orange == Setting background to orange
+//	}
+//
+//	//a little bit advancec ;-)
+//	//creating a simple(!) loading animation
+//	RZRESULT Result_Mousemat = 0;
+//	for ( size_t count = 0; count < ChromaSDK::Mousepad::MAX_LEDS; count++ )
+//	{
+//		Example_mousemat_effect.Color[count] = BLUE;
+//		Sleep( 500 );
+//		Result_Mousemat = CreateMousepadEffect( ChromaSDK::Mousepad::CHROMA_CUSTOM, &Example_mousemat_effect, nullptr );
+//
+//	} //if you want to work with animation, take a look at the frames that the ChromaSDK provides :)
+//
+//	return Result_Mousemat;
+//}
 
 // Every effects for other devices can be coded as seen above. Only be sure to use the right CreateXXXXXXEffect function and you are ready to go ;-)
 //If you want to code for the Blade keyboard and a normal one at the same time, take a look at the offcial FAQ  http://developer.razerzone.com/chroma/chroma-faq/

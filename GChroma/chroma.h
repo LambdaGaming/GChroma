@@ -36,14 +36,12 @@ public:
 	~GChroma();
 	BOOL Initialize();
 
-
 	void ResetEffects( size_t DeviceType );
-	//Define your methods here
-	BOOL example_keyboard();
+
 	BOOL SetMouseColor( COLORREF color );
 	BOOL SetMouseColorEx( COLORREF color, size_t row, size_t col );
-	BOOL example_mousemat();
-
+	BOOL SetKeyboardColor( COLORREF color );
+	BOOL SetKeyboardColorEx( COLORREF color, size_t row, size_t col );
 
 	BOOL IsDeviceConnected( RZDEVICEID DeviceId );
 

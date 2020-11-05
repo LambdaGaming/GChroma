@@ -35,3 +35,6 @@
 .vs/
 Dependencies/
 Debug/
+Release/
+x64/
+*.log
