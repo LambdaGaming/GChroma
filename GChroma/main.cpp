@@ -72,6 +72,7 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 /*
 	GChroma_SetMouseColorEx( Number device, Vector color, Number row, Number col )
 	Arguments:
+		device - Device ID
 		color - Lua RGB color table converted to a vector
 		row - LED profile row (https://developer.razer.com/works-with-chroma-v1/razer-chroma-led-profiles/)
 		col - LED profile column

@@ -186,10 +186,19 @@ void GChroma::ResetEffects( size_t DeviceType )
 
 void GChroma::SetMouseColor( COLORREF color )
 {
-	for ( size_t row = 0; row < Mouse::MAX_ROW; row++ ) {
-		for ( size_t col = 0; col < Mouse::MAX_COLUMN; col++ ) {
-			MouseEffect.Color[row][col] = color; // Fill in the entire grid with the same color
+	try
+	{
+		for ( size_t row = 0; row < Mouse::MAX_ROW; row++ )
+		{
+			for ( size_t col = 0; col < Mouse::MAX_COLUMN; col++ )
+			{
+				MouseEffect.Color[row][col] = color; // Fill in the entire grid with the same color
+			}
 		}
+	}
+	catch ( ... )
+	{
+		return;
 	}
 
 	CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
@@ -197,17 +206,33 @@ void GChroma::SetMouseColor( COLORREF color )
 
 void GChroma::SetMouseColorEx( size_t key, COLORREF color )
 {
-	
-	MouseEffect.Color[HIBYTE( key )][LOBYTE( key )] = color;
+	try
+	{
+		MouseEffect.Color[HIBYTE( key )][LOBYTE( key )] = color;
+	}
+	catch ( ... )
+	{
+		return;
+	}
+
 	CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
 }
 
 void GChroma::SetKeyboardColor( COLORREF color )
 {
-	for ( size_t row = 0; row < Keyboard::MAX_ROW; row++ ) {
-		for ( size_t col = 0; col < Keyboard::MAX_COLUMN; col++ ) {
-			KeyboardEffect.Color[row][col] = color;
+	try
+	{
+		for ( size_t row = 0; row < Keyboard::MAX_ROW; row++ )
+		{
+			for ( size_t col = 0; col < Keyboard::MAX_COLUMN; col++ )
+			{
+				KeyboardEffect.Color[row][col] = color;
+			}
 		}
+	}
+	catch ( ... )
+	{
+		return;
 	}
 
 	CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM, &KeyboardEffect, nullptr );
@@ -215,7 +240,15 @@ void GChroma::SetKeyboardColor( COLORREF color )
 
 void GChroma::SetKeyboardColorEx( size_t key, COLORREF color )
 {
-	KeyboardEffect.Key[HIBYTE( key )][LOBYTE( key )] = 0x01000000 | color;
+	try
+	{
+		KeyboardEffect.Key[HIBYTE( key )][LOBYTE( key )] = 0x01000000 | color;
+	}
+	catch ( ... )
+	{
+		return;
+	}
+
 	CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM_KEY, &KeyboardEffect, NULL );
 }
 
@@ -223,8 +256,16 @@ void GChroma::SetMousepadColor( COLORREF color )
 {
 	Mousepad::CUSTOM_EFFECT_TYPE MousepadEffect = {};
 
-	for ( size_t i = 0; i < Mousepad::MAX_LEDS; i++ ) {
-		MousepadEffect.Color[i] = color;
+	try
+	{
+		for ( size_t i = 0; i < Mousepad::MAX_LEDS; i++ )
+		{
+			MousepadEffect.Color[i] = color;
+		}
+	}
+	catch ( ... )
+	{
+		return;
 	}
 
 	CreateMousepadEffect( Mousepad::CHROMA_CUSTOM, &MousepadEffect, nullptr );
@@ -233,23 +274,51 @@ void GChroma::SetMousepadColor( COLORREF color )
 void GChroma::SetMousepadColorEx( COLORREF color, size_t num )
 {
 	Mousepad::CUSTOM_EFFECT_TYPE MousepadEffect = {};
-	MousepadEffect.Color[num] = color;
+
+	try
+	{
+		MousepadEffect.Color[num] = color;
+	}
+	catch ( ... )
+	{
+		return;
+	}
+
 	CreateMousepadEffect( Mousepad::CHROMA_CUSTOM, &MousepadEffect, nullptr );
 }
 
 void GChroma::SetHeadsetColor( COLORREF color )
 {
 	Headset::CUSTOM_EFFECT_TYPE HeadsetEffect = {};
-	for ( size_t i = 0; i < Headset::MAX_LEDS; i++ ) {
-		HeadsetEffect.Color[i] = color;
+
+	try
+	{
+		for ( size_t i = 0; i < Headset::MAX_LEDS; i++ )
+		{
+			HeadsetEffect.Color[i] = color;
+		}
 	}
+	catch ( ... )
+	{
+		return;
+	}
+
 	CreateHeadsetEffect( Headset::CHROMA_CUSTOM, &HeadsetEffect, nullptr );
 }
 
 void GChroma::SetHeadsetColorEx( COLORREF color, size_t num )
 {
 	Headset::CUSTOM_EFFECT_TYPE HeadsetEffect = {};
-	HeadsetEffect.Color[num] = color;
+
+	try
+	{
+		HeadsetEffect.Color[num] = color;
+	}
+	catch ( ... )
+	{
+		return;
+	}
+
 	CreateHeadsetEffect( Headset::CHROMA_CUSTOM, &HeadsetEffect, nullptr );
 }
 
@@ -257,10 +326,19 @@ void GChroma::SetKeypadColor( COLORREF color )
 {
 	Keypad::CUSTOM_EFFECT_TYPE KeypadEffect = {};
 
-	for ( size_t row = 0; row < Keypad::MAX_ROW; row++ ) {
-		for ( size_t col = 0; col < Keypad::MAX_COLUMN; col++ ) {
-			KeypadEffect.Color[row][col] = color;
+	try
+	{
+		for ( size_t row = 0; row < Keypad::MAX_ROW; row++ )
+		{
+			for ( size_t col = 0; col < Keypad::MAX_COLUMN; col++ )
+			{
+				KeypadEffect.Color[row][col] = color;
+			}
 		}
+	}
+	catch ( ... )
+	{
+		return;
 	}
 
 	CreateKeypadEffect( Keypad::CHROMA_CUSTOM, &KeypadEffect, nullptr );
@@ -269,6 +347,15 @@ void GChroma::SetKeypadColor( COLORREF color )
 void GChroma::SetKeypadColorEx( COLORREF color, size_t row, size_t col )
 {
 	Keypad::CUSTOM_EFFECT_TYPE KeypadEffect = {};
-	KeypadEffect.Color[row][col] = color;
+
+	try
+	{
+		KeypadEffect.Color[row][col] = color;
+	}
+	catch ( ... )
+	{
+		return;
+	}
+
 	CreateKeypadEffect( Keypad::CHROMA_CUSTOM, &KeypadEffect, nullptr );
 }
