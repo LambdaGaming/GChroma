@@ -42,6 +42,7 @@ DELETEEFFECT DeleteEffect = nullptr;
 QUERYDEVICE QueryDevice = nullptr;
 
 Keyboard::CUSTOM_KEY_EFFECT_TYPE KeyboardEffect = {};
+Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {};
 
 BOOL GChroma::IsDeviceConnected( RZDEVICEID DeviceId )
 {
@@ -135,6 +136,7 @@ void GChroma::ResetEffects( size_t DeviceType )
 			if ( CreateMouseEffect )
 			{
 				CreateMouseEffect( ChromaSDK::Mouse::CHROMA_NONE, nullptr, nullptr );
+				MouseEffect = {};
 			}
 
 			if ( CreateHeadsetEffect )
@@ -164,6 +166,7 @@ void GChroma::ResetEffects( size_t DeviceType )
 			if ( CreateMouseEffect )
 			{
 				CreateMouseEffect( ChromaSDK::Mouse::CHROMA_NONE, nullptr, nullptr );
+				MouseEffect = {};
 			}
 			break;
 		case 4:
@@ -183,33 +186,24 @@ void GChroma::ResetEffects( size_t DeviceType )
 
 void GChroma::SetMouseColor( COLORREF color )
 {
-	Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {}; // Initialize
-
 	for ( size_t row = 0; row < Mouse::MAX_ROW; row++ ) {
 		for ( size_t col = 0; col < Mouse::MAX_COLUMN; col++ ) {
-			MouseEffect.Color[row][col] = color; // Filling the whole matrix with the color orange == Setting background to orange
+			MouseEffect.Color[row][col] = color; // Fill in the entire grid with the same color
 		}
 	}
 
 	CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
 }
 
-void GChroma::SetMouseColorEx( COLORREF color, size_t row, size_t col )
+void GChroma::SetMouseColorEx( size_t key, COLORREF color )
 {
-	//The mouse effect is initialized as a 2 dimensional matrix/array
-	//e.g. the scroll wheel is [2][3]
-	// Source: http://developer.razerzone.com/chroma/razer-chroma-led-profiles/
-	// Take the super mouse as standard, so your program will work with every mouse out of the box 
-
-	Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {};
-	MouseEffect.Color[row][col] = color;
+	
+	MouseEffect.Color[HIBYTE( key )][LOBYTE( key )] = color;
 	CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
 }
 
 void GChroma::SetKeyboardColor( COLORREF color )
 {
-	KeyboardEffect = {};
-
 	for ( size_t row = 0; row < Keyboard::MAX_ROW; row++ ) {
 		for ( size_t col = 0; col < Keyboard::MAX_COLUMN; col++ ) {
 			KeyboardEffect.Color[row][col] = color;
@@ -263,8 +257,8 @@ void GChroma::SetKeypadColor( COLORREF color )
 {
 	Keypad::CUSTOM_EFFECT_TYPE KeypadEffect = {};
 
-	for ( size_t row = 0; row < Keyboard::MAX_ROW; row++ ) {
-		for ( size_t col = 0; col < Keyboard::MAX_COLUMN; col++ ) {
+	for ( size_t row = 0; row < Keypad::MAX_ROW; row++ ) {
+		for ( size_t col = 0; col < Keypad::MAX_COLUMN; col++ ) {
 			KeypadEffect.Color[row][col] = color;
 		}
 	}

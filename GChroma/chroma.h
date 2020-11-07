@@ -25,7 +25,7 @@
 			void ResetEffects( size_t DeviceType );
 
 			void SetMouseColor( COLORREF color );
-			void SetMouseColorEx( COLORREF color, size_t row, size_t col );
+			void SetMouseColorEx( size_t key, COLORREF color );
 			void SetKeyboardColor( COLORREF color );
 			void SetKeyboardColorEx( size_t key, COLORREF color );
 			void SetMousepadColor( COLORREF color );

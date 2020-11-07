@@ -76,8 +76,9 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 		row - LED profile row (https://developer.razer.com/works-with-chroma-v1/razer-chroma-led-profiles/)
 		col - LED profile column
 	Returns: None
-	Example: GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), 2, 3 ) // Sets the scroll wheel color to blue
-	Example 2: GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 255, 0, 0 ), GCHROMA_KEY_W, 0 ) // Sets the W key color to red
+	Example 1: GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), GCHROMA_MOUSE_SCROLLWHEEL, 0 ) --Sets the scroll wheel color to blue
+	Example 2: GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 255, 0, 0 ), GCHROMA_KEY_W, 0 ) --Sets the W key color to red
+	Example 3: GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSEPAD, Vector( 0, 255, 0 ), 0, 0 ) --Sets the top left corner of the mousepad to green
 */
 LUA_FUNCTION( GChroma_SetDeviceColorEx )
 {
@@ -110,7 +111,7 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 			}
 			case 3:
 			{
-				chromainit->SetMouseColorEx( convert, row, col );
+				chromainit->SetMouseColorEx( row, convert );
 				break;
 			}
 			case 4:
