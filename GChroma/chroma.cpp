@@ -41,6 +41,8 @@ SETEFFECT SetEffect = nullptr;
 DELETEEFFECT DeleteEffect = nullptr;
 QUERYDEVICE QueryDevice = nullptr;
 
+Keyboard::CUSTOM_KEY_EFFECT_TYPE KeyboardEffect = {};
+
 BOOL GChroma::IsDeviceConnected( RZDEVICEID DeviceId )
 {
 	if ( QueryDevice != nullptr )
@@ -122,6 +124,7 @@ void GChroma::ResetEffects( size_t DeviceType )
 			if ( CreateKeyboardEffect )
 			{
 				CreateKeyboardEffect( ChromaSDK::Keyboard::CHROMA_NONE, nullptr, nullptr );
+				KeyboardEffect = {};
 			}
 
 			if ( CreateMousepadEffect )
@@ -148,6 +151,7 @@ void GChroma::ResetEffects( size_t DeviceType )
 			if ( CreateKeyboardEffect )
 			{
 				CreateKeyboardEffect( ChromaSDK::Keyboard::CHROMA_NONE, nullptr, nullptr );
+				KeyboardEffect = {};
 			}
 			break;
 		case 2:
@@ -176,55 +180,6 @@ void GChroma::ResetEffects( size_t DeviceType )
 			break;
 	}
 }
-
-//BOOL GChroma::example_keyboard() {
-
-	//Choose one of the following methods by just deleting the first and last line :)
-
-
-
-	/* For matrix-based-effect delete this line
-	ChromaSDK::Keyboard::CUSTOM_EFFECT_TYPE Example_keyboard_effect = {}; //Initialize
-	//The keyboard effect is initialized as a 2 dimensional matrix/array
-	//e.g. the ESC-key is [0][1]
-	// Source: http://developer.razerzone.com/chroma/razer-chroma-led-profiles/
-	// Take the super keyboard as standard, so your programm will work with every keyboard out of the box
-	for (size_t row = 0; row < ChromaSDK::Keyboard::MAX_ROW; row++) {
-		for (size_t col = 0; col < ChromaSDK::Keyboard::MAX_COLUMN; col++) {
-			Example_keyboard_effect.Color[row][col] = ORANGE;   //Filling the whole matrix with the color orange == Setting background to orange
-		}
-	}
-	Example_keyboard_effect.Color[0][1] = RED; //The colormatrix can be overwritten, until you finally apply the effect to the keyboard
-	Example_keyboard_effect.Color[0][1] = BLUE; // Only the last state of the key will be applied. So the ESC-key will be blue, not red and not orange
-
-	//Now we apply the effect to the keyboard
-	RZRESULT Result_Keyboard = CreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_CUSTOM, &Example_keyboard_effect, nullptr);
-	//You can work with the Result as well, e.g. checking if everythings ok
-	return Result_Keyboard;
-	For matrix-based-effect delete this line*/
-
-
-
-
-	/*For key-based-effect delete this line
-	Keyboard::CUSTOM_KEY_EFFECT_TYPE Example_keyboard_effect_key = {};  //Initialize key-based Effect
-	//The keyboard key effect is initialized as a 2 dimensional matrix/array, but this time called by the HIBYTE and the LOBYTE of the key itself
-	//e.g. the ESC-key is [HIBYTE(RZKEY_ESC)][LOBYTE(RZKEY_ESC)]
-	//Use this if you want to light up specific keys
-	//The whole naming scheme can be found in Keyboard::RZKEY of the RzChromaSDKTypes.h
-	//Important! Don't forget the 0x01000000 | before the used COLORREF, otherwise it won't work
-	Example_keyboard_effect_key.Key[HIBYTE(RZKEY_ESC)][LOBYTE(RZKEY_ESC)] = 0x01000000 | BLUE; // ESC-key will light up blue
-	Example_keyboard_effect_key.Key[HIBYTE(RZKEY_1)][LOBYTE(RZKEY_1)] = 0x01000000 | RED; // 1-key will light up red
-	Example_keyboard_effect_key.Key[HIBYTE(RZKEY_NUMPAD3)][LOBYTE(RZKEY_NUMPAD3)] = 0x01000000 | GREEN; // Numpad-3-key will light up green
-	//Now we apply the effect to the keyboard
-	RZRESULT Result_Keyboard = CreateKeyboardEffect(Keyboard::CHROMA_CUSTOM_KEY, &Example_keyboard_effect_key, NULL);
-	//You can work with the Result as well, e.g. checking if everythings ok
-	return Result_Keyboard;
-	For key-based-effect delete this line*/
-
-
-//	return FALSE;
-//}
 
 BOOL GChroma::SetMouseColor( COLORREF color )
 {
@@ -255,7 +210,7 @@ BOOL GChroma::SetMouseColorEx( COLORREF color, size_t row, size_t col )
 
 BOOL GChroma::SetKeyboardColor( COLORREF color )
 {
-	Keyboard::CUSTOM_EFFECT_TYPE KeyboardEffect = {};
+	KeyboardEffect = {};
 
 	for ( size_t row = 0; row < Keyboard::MAX_ROW; row++ ) {
 		for ( size_t col = 0; col < Keyboard::MAX_COLUMN; col++ ) {
@@ -267,11 +222,10 @@ BOOL GChroma::SetKeyboardColor( COLORREF color )
 	return Result_Keyboard;
 }
 
-BOOL GChroma::SetKeyboardColorEx( COLORREF color, size_t row, size_t col )
+BOOL GChroma::SetKeyboardColorEx( size_t key, COLORREF color )
 {
-	Keyboard::CUSTOM_KEY_EFFECT_TYPE KeyboardEffect = {};
-	KeyboardEffect.Color[row][col] = color;
-	auto Result_Keyboard = CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM, &KeyboardEffect, nullptr );
+	KeyboardEffect.Key[HIBYTE( key )][LOBYTE( key )] = 0x01000000 | color;
+	auto Result_Keyboard = CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM_KEY, &KeyboardEffect, NULL );
 	return Result_Keyboard;
 }
 
@@ -301,6 +255,3 @@ BOOL GChroma::SetKeyboardColorEx( COLORREF color, size_t row, size_t col )
 //
 //	return Result_Mousemat;
 //}
-
-// Every effects for other devices can be coded as seen above. Only be sure to use the right CreateXXXXXXEffect function and you are ready to go ;-)
-//If you want to code for the Blade keyboard and a normal one at the same time, take a look at the offcial FAQ  http://developer.razerzone.com/chroma/chroma-faq/

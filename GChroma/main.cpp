@@ -107,7 +107,7 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 			}
 			case 2:
 			{
-				auto keyboard = chromainit->SetKeyboardColorEx( convert, row, col );
+				auto keyboard = chromainit->SetKeyboardColorEx( row, convert );
 				break;
 			}
 			case 3:
@@ -135,19 +135,73 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 	return 0;
 }
 
-/*
-	GChroma_ResetAll()
-	Arguments: None
-	Returns: None
-*/
-LUA_FUNCTION( GChroma_ResetAll )
+LUA_FUNCTION( GChroma_SetKeyboardKeyColor )
 {
 	GChroma* chromainit;
 	chromainit = new GChroma();
 	auto init = chromainit->Initialize();
+	LUA->CheckType( 1, GarrysMod::Lua::Type::Number );
+	LUA->CheckType( 2, GarrysMod::Lua::Type::Vector );
+	int key = LUA->GetNumber( 1 );
+	Vector color = LUA->GetVector( 2 );
 	if ( init )
 	{
-		chromainit->ResetEffects( ALL_DEVICES );
+		COLORREF convert = RGB( color.x, color.y, color.z );
+		chromainit->SetKeyboardColorEx( key, convert );
+	}
+	delete chromainit;
+	return 1;
+}
+
+/*
+	GChroma_ResetDevice( Number device )
+	Arguments:
+		device - Device ID
+	Returns: None
+*/
+LUA_FUNCTION( GChroma_ResetDevice )
+{
+	GChroma* chromainit;
+	chromainit = new GChroma();
+	auto init = chromainit->Initialize();
+	LUA->CheckType( 1, GarrysMod::Lua::Type::Number );
+	int device = LUA->GetNumber( 1 );
+	if ( init )
+	{
+		switch ( device )
+		{
+			case 0:
+			{
+				chromainit->ResetEffects( ALL_DEVICES );
+				break;
+			}
+			case 1:
+			{
+				chromainit->ResetEffects( MOUSE_DEVICES );
+				break;
+			}
+			case 2:
+			{
+				chromainit->ResetEffects( KEYBOARD_DEVICES );
+				break;
+			}
+			case 3:
+			{
+				chromainit->ResetEffects( MOUSEMAT_DEVICES );
+				break;
+			}
+			case 4:
+			{
+				chromainit->ResetEffects( KEYPAD_DEVICES );
+				break;
+			}
+			case 5:
+			{
+				chromainit->ResetEffects( HEADSET_DEVICES );
+				break;
+			}
+			default: break;
+		}
 	}
 	delete chromainit;
 	return 0;
@@ -166,8 +220,13 @@ GMOD_MODULE_OPEN()
 	LUA->Pop();
 
 	LUA->PushSpecial( GarrysMod::Lua::SPECIAL_GLOB );
-		LUA->PushCFunction( GChroma_ResetAll );
-		LUA->SetField( -2, "GChroma_ResetAll" );
+		LUA->PushCFunction( GChroma_ResetDevice );
+		LUA->SetField( -2, "GChroma_ResetDevice" );
+	LUA->Pop();
+
+	LUA->PushSpecial( GarrysMod::Lua::SPECIAL_GLOB );
+		LUA->PushCFunction( GChroma_SetKeyboardKeyColor );
+		LUA->SetField( -2, "GChroma_SetKeyboardKeyColor" );
 	LUA->Pop();
 	return 0;
 }
