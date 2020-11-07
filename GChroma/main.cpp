@@ -30,39 +30,36 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 		{
 			case 0:
 			{
-				auto mouse = chromainit->SetMouseColor( convert );
-				auto keyboard = chromainit->SetKeyboardColor( convert );
-				//auto mousepad = chromainit->SetMousepadColor( convert );
-				//auto keypad = chromainit->SetKeypadColor( convert );
-				//auto headset = chromainit->SetHeadsetColor( convert );
+				chromainit->SetMouseColor( convert );
+				chromainit->SetKeyboardColor( convert );
+				chromainit->SetMousepadColor( convert );
+				chromainit->SetKeypadColor( convert );
+				chromainit->SetHeadsetColor( convert );
 				break;
 			}
 			case 1:
 			{
-				auto mouse = chromainit->SetMouseColor( convert );
+				chromainit->SetKeyboardColor( convert );
 				break;
 			}
 			case 2:
 			{
-				auto keyboard = chromainit->SetKeyboardColor( convert );
+				chromainit->SetMousepadColor( convert );
 				break;
 			}
 			case 3:
 			{
-				// TODO: Mousepad support
-				//auto mousepad = chromainit->SetMousepadColor( convert );
+				chromainit->SetMouseColor( convert );
 				break;
 			}
 			case 4:
 			{
-				// TODO: Keypad support
-				//auto keypad = chromainit->SetKeypadColor( convert );
+				chromainit->SetHeadsetColor( convert );
 				break;
 			}
 			case 5:
 			{
-				// TODO: Headset support
-				//auto headset = chromainit->SetHeadsetColor( convert );
+				chromainit->SetKeypadColor( convert );
 				break;
 			}
 			default: break; // Don't do anything if a valid device wasn't input
@@ -80,6 +77,7 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 		col - LED profile column
 	Returns: None
 	Example: GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), 2, 3 ) // Sets the scroll wheel color to blue
+	Example 2: GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 255, 0, 0 ), GCHROMA_KEY_W, 0 ) // Sets the W key color to red
 */
 LUA_FUNCTION( GChroma_SetDeviceColorEx )
 {
@@ -102,30 +100,27 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 		{
 			case 1:
 			{
-				auto mouse = chromainit->SetMouseColorEx( convert, row, col );
+				chromainit->SetKeyboardColorEx( row, convert );
 				break;
 			}
 			case 2:
 			{
-				auto keyboard = chromainit->SetKeyboardColorEx( row, convert );
+				chromainit->SetMousepadColorEx( convert, row );
 				break;
 			}
 			case 3:
 			{
-				// TODO: Mousepad support
-				//auto mousepad = chromainit->SetMousepadColorEx( convert, row, col );
+				chromainit->SetMouseColorEx( convert, row, col );
 				break;
 			}
 			case 4:
 			{
-				// TODO: Keypad support
-				//auto keypad = chromainit->SetKeypadColorEx( convert, row, col );
+				chromainit->SetHeadsetColorEx( convert, row );
 				break;
 			}
 			case 5:
 			{
-				// TODO: Headset support
-				//auto headset = chromainit->SetHeadsetColorEx( convert, row, col );
+				chromainit->SetKeypadColorEx( convert, row, col );
 				break;
 			}
 			default: break;
@@ -133,24 +128,6 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 	}
 	delete chromainit;
 	return 0;
-}
-
-LUA_FUNCTION( GChroma_SetKeyboardKeyColor )
-{
-	GChroma* chromainit;
-	chromainit = new GChroma();
-	auto init = chromainit->Initialize();
-	LUA->CheckType( 1, GarrysMod::Lua::Type::Number );
-	LUA->CheckType( 2, GarrysMod::Lua::Type::Vector );
-	int key = LUA->GetNumber( 1 );
-	Vector color = LUA->GetVector( 2 );
-	if ( init )
-	{
-		COLORREF convert = RGB( color.x, color.y, color.z );
-		chromainit->SetKeyboardColorEx( key, convert );
-	}
-	delete chromainit;
-	return 1;
 }
 
 /*
@@ -166,42 +143,9 @@ LUA_FUNCTION( GChroma_ResetDevice )
 	auto init = chromainit->Initialize();
 	LUA->CheckType( 1, GarrysMod::Lua::Type::Number );
 	int device = LUA->GetNumber( 1 );
-	if ( init )
+	if ( init && device >= 0 && device <= 5 )
 	{
-		switch ( device )
-		{
-			case 0:
-			{
-				chromainit->ResetEffects( ALL_DEVICES );
-				break;
-			}
-			case 1:
-			{
-				chromainit->ResetEffects( MOUSE_DEVICES );
-				break;
-			}
-			case 2:
-			{
-				chromainit->ResetEffects( KEYBOARD_DEVICES );
-				break;
-			}
-			case 3:
-			{
-				chromainit->ResetEffects( MOUSEMAT_DEVICES );
-				break;
-			}
-			case 4:
-			{
-				chromainit->ResetEffects( KEYPAD_DEVICES );
-				break;
-			}
-			case 5:
-			{
-				chromainit->ResetEffects( HEADSET_DEVICES );
-				break;
-			}
-			default: break;
-		}
+		chromainit->ResetEffects( device );
 	}
 	delete chromainit;
 	return 0;
@@ -222,11 +166,6 @@ GMOD_MODULE_OPEN()
 	LUA->PushSpecial( GarrysMod::Lua::SPECIAL_GLOB );
 		LUA->PushCFunction( GChroma_ResetDevice );
 		LUA->SetField( -2, "GChroma_ResetDevice" );
-	LUA->Pop();
-
-	LUA->PushSpecial( GarrysMod::Lua::SPECIAL_GLOB );
-		LUA->PushCFunction( GChroma_SetKeyboardKeyColor );
-		LUA->SetField( -2, "GChroma_SetKeyboardKeyColor" );
 	LUA->Pop();
 	return 0;
 }

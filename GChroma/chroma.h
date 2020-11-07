@@ -24,10 +24,16 @@
 
 			void ResetEffects( size_t DeviceType );
 
-			BOOL SetMouseColor( COLORREF color );
-			BOOL SetMouseColorEx( COLORREF color, size_t row, size_t col );
-			BOOL SetKeyboardColor( COLORREF color );
-			BOOL SetKeyboardColorEx( size_t key, COLORREF color );
+			void SetMouseColor( COLORREF color );
+			void SetMouseColorEx( COLORREF color, size_t row, size_t col );
+			void SetKeyboardColor( COLORREF color );
+			void SetKeyboardColorEx( size_t key, COLORREF color );
+			void SetMousepadColor( COLORREF color );
+			void SetMousepadColorEx( COLORREF color, size_t num );
+			void SetHeadsetColor( COLORREF color );
+			void SetHeadsetColorEx( COLORREF color, size_t num );
+			void SetKeypadColor( COLORREF color );
+			void SetKeypadColorEx( COLORREF color, size_t row, size_t col );
 
 			BOOL IsDeviceConnected( RZDEVICEID DeviceId );
 
