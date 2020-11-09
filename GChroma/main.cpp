@@ -158,14 +158,8 @@ GMOD_MODULE_OPEN()
 	LUA->PushSpecial( GarrysMod::Lua::SPECIAL_GLOB );
 		LUA->PushCFunction( GChroma_SetDeviceColor );
 		LUA->SetField( -2, "GChroma_SetDeviceColor" );
-	LUA->Pop();
-
-	LUA->PushSpecial( GarrysMod::Lua::SPECIAL_GLOB );
 		LUA->PushCFunction( GChroma_SetDeviceColorEx );
 		LUA->SetField( -2, "GChroma_SetDeviceColorEx" );
-	LUA->Pop();
-
-	LUA->PushSpecial( GarrysMod::Lua::SPECIAL_GLOB );
 		LUA->PushCFunction( GChroma_ResetDevice );
 		LUA->SetField( -2, "GChroma_ResetDevice" );
 	LUA->Pop();

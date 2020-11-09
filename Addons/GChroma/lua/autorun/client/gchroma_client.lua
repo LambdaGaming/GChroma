@@ -1,16 +1,17 @@
-function GChroma_Test()
+local function GChroma_Test()
 	if GChroma_Loaded then
-		local i = 0
+		local i = 1
 		timer.Create( "GChroma_Init", 0.5, 4, function()
-			if i == 0 then
-				GChroma_SetDeviceColor( GCHROMA_DEVICE_ALL, Vector( 255, 0, 0 ) )
-			elseif i == 1 then
-				GChroma_SetDeviceColor( GCHROMA_DEVICE_ALL, Vector( 0, 255, 0 ) )
-			elseif i == 2 then
-				GChroma_SetDeviceColor( GCHROMA_DEVICE_ALL, Vector( 0, 0, 255 ) )
-			else
+			local colors = {
+				Vector( 255, 0, 0 ),
+				Vector( 0, 255, 0 ),
+				Vector( 0, 0, 255 )
+			}
+			if i == 4 then
 				GChroma_ResetDevice( GCHROMA_DEVICE_ALL )
+				return
 			end
+			GChroma_SetDeviceColor( GCHROMA_DEVICE_ALL, colors[i] )
 			i = i + 1
 		end )
 	end
