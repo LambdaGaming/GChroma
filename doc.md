@@ -1,7 +1,12 @@
 # GChroma Lua Documentation
  Below is the current list of Lua functions and enums available for developers to use to integrate GChroma with their addons.
 
+&nbsp;
+
 # GChroma_SetDeviceColor( `number` device, `vector` color )
+ ## Scope
+ Shared (For server, add the target player as the first argument.)
+
  ## Description
  Sets the specified device to a solid color. Individual LEDs cannot be changed with this function.
 
@@ -13,23 +18,28 @@
  ## Example 1
  Sets the color of all available devices to blue.
  ``` lua
-	if GChroma_Loaded then --If your addon isn't exclusively made for GChroma, add this check to avoid errors
-	    GChroma_SetDeviceColor( GCHROMA_DEVICE_ALL, Vector( 0, 0, 255 ) )
-	end
+if GChroma_Loaded then --If your addon isn't exclusively made for GChroma, add this check to avoid errors
+	GChroma_SetDeviceColor( GCHROMA_DEVICE_ALL, Vector( 0, 0, 255 ) )
+end
  ```
 
  ## Example 2
  Sets the color of all available devices to the color of the entity that the client has used.
  ``` lua
-	--Assume this function is in a shared file
-	function ENT:Use( activator, caller )
-	    if CLIENT and GChroma_Loaded then
-		    GChroma_SetDeviceColor( GCHROMA_DEVICE_ALL, GChroma_ToVector( self:GetColor() ) )
-	    end
+--Assume this function is in a shared file
+function ENT:Use( activator, caller )
+	if CLIENT and GChroma_Loaded then
+		GChroma_SetDeviceColor( GCHROMA_DEVICE_ALL, GChroma_ToVector( self:GetColor() ) )
 	end
+end
  ```
 
+&nbsp;
+
 # GChroma_SetDeviceColorEx( `number` device, `vector` color, `number` row, `number` col )
+ ## Scope
+ Shared (For server, add the target player as the first argument.)
+
  ## Description
  Sets the color of the specified device LED. If you are setting the color for a keyboard or mouse, you can use their respective LED enums and set the col argument to 0. If you are using a different device, see the [Chroma LED Profiles](https://developer.razer.com/works-with-chroma-v1/razer-chroma-led-profiles/) for what row and column you should use. It is recommended you use the "super" variant of each device to ensure compatibility with all devices.
 
@@ -45,45 +55,75 @@
  ## Example 1
  Sets the mouse scroll wheel color to blue.
  ``` lua
-	if GChroma_Loaded then
-	    GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), GCHROMA_MOUSE_SCROLLWHEEL, 0 )
-	end
+if GChroma_Loaded then
+	GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), GCHROMA_MOUSE_SCROLLWHEEL, 0 )
+end
 
-	--This does the same thing as above, but uses the grid system instead of enums
-	if GChroma_Loaded then
-	    GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), 2, 3 )
-	end
+--This does the same thing as above, but uses the grid system instead of enums
+if GChroma_Loaded then
+	GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), 2, 3 )
+end
  ```
 
  ## Example 2
  Sets the W key on the keyboard to red.
  ``` lua
-	if GChroma_Loaded then
-	    GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 255, 0, 0 ), GCHROMA_KEY_W, 0 )
-	end
+if GChroma_Loaded then
+	GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 255, 0, 0 ), GCHROMA_KEY_W, 0 )
+end
  ```
 
  ## Example 3
  Sets the top left corner of the mousepad to green.
  ``` lua
-	if GChroma_Loaded then
-	    GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSEPAD, Vector( 0, 255, 0 ), 0, 0 )
-	end
+if GChroma_Loaded then
+	GChroma_SetDeviceColorEx( GCHROMA_DEVICE_MOUSEPAD, Vector( 0, 255, 0 ), 0, 0 )
+end
  ```
 
+&nbsp;
+
 # GChroma_ResetDevice( `number` device )
+ ## Scope
+ Shared (For server, add the target player as the first argument.)
+
  ## Description
  Resets the colors of the specified device to 0, 0, 0.
 
  ## Arguments
  1. `number` device - Device ID. See enums section below for available devices.
 
+&nbsp;
+
 # GChroma_ToVector( `color` color )
+ ## Scope
+ Shared
+
  ## Description
  Converts a Lua color table into a vector so that it can be used in the GChroma color functions.
 
  ## Arguments
  1. `color` color - Color table to be converted.
+
+&nbsp;
+
+# GChroma_KeyConvert( `number` key )
+ ## Scope
+ Client
+
+ ## Description
+ Converts a Garry's Mod key into a GChroma key. May not work for every key. Intended to be used only for letter keys.
+
+ ## Arguments
+ 1. `number` key - Garry's Mod key to be converted.
+
+ ## Example 1
+ Sets the color of the key bound to voice chat to green.
+ ``` lua
+GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 0, 255, 0 ), GChroma_KeyConvert( input.GetKeyCode( input.LookupBinding( "voicerecord" ) ) ), 0 )
+ ```
+
+&nbsp;
 
 # Enums
  ## Device IDs

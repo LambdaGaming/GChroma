@@ -18,10 +18,6 @@ local function GChroma_Test()
 end
 concommand.Add( "gchroma_test", GChroma_Test )
 
-function GChroma_ToVector( color )
-	return Vector( color.r, color.g, color.b )
-end
-
 local function GChroma_Init()
 	if pcall( require, "gchroma" ) then --Make sure the client actually has the dll
 		GChroma_ResetDevice( GCHROMA_DEVICE_ALL ) --Doesn't do anything here but tell the SDK to wake up
@@ -30,3 +26,35 @@ local function GChroma_Init()
 	end
 end
 hook.Add( "InitPostEntity", "Chroma_Init", GChroma_Init )
+
+local function SetDeviceColor()
+	local device = net.ReadInt( 32 )
+	local color = net.ReadVector()
+	if GChroma_Loaded then
+		GChroma_SetDeviceColor( device, color )
+	end
+end
+net.Receive( "GChroma_SetDeviceColor", SetDeviceColor )
+
+local function SetDeviceColorEx()
+	local device = net.ReadInt( 32 )
+	local color = net.ReadVector()
+	local row = net.ReadInt( 32 )
+	local col = net.ReadInt( 32 )
+	if GChroma_Loaded then
+		GChroma_SetDeviceColorEx( device, color, row, col )
+	end
+end
+net.Receive( "GChroma_SetDeviceColorEx", SetDeviceColorEx )
+
+local function ResetDevice()
+	local device = net.ReadInt( 32 )
+	if GChroma_Loaded then
+		GChroma_ResetDevice( device )
+	end
+end
+net.Receive( "GChroma_ResetDevice", ResetDevice )
+
+function GChroma_KeyConvert( key )
+	return _G["GCHROMA_KEY_"..input.GetKeyName( key ):upper()]
+end
