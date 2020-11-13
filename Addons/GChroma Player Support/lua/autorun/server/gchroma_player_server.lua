@@ -13,16 +13,13 @@ local function GChromaPlayerDeath( ply )
 	if GChroma_Loaded then
 		GChroma_ResetDevice( ply, GCHROMA_DEVICE_ALL )
 		GChroma_SetDeviceColor( ply, GCHROMA_DEVICE_ALL, GCHROMA_COLOR_RED )
-		net.Start( "GChromaFlashlight" )
-		net.WriteBool( false )
-		net.Send( ply )
 	end
 end
-hook.Add( "PlayerDeath", "GChromaPlayerDeath", GChromaPlayerDeath )
+hook.Add( "PostPlayerDeath", "GChromaPlayerDeath", GChromaPlayerDeath )
 
 util.AddNetworkString( "GChromaNoclip" )
 local function GChromaPlayerNoclip( ply, enable )
-	if GChroma_Loaded then
+	if GChroma_Loaded and IsFirstTimePredicted() then
 		net.Start( "GChromaNoclip" )
 		net.WriteBool( enable )
 		net.Send( ply )
