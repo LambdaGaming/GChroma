@@ -18,8 +18,8 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 	GChroma* chromainit;
 	chromainit = new GChroma();
 	auto init = chromainit->Initialize();
-	LUA->CheckType( 1, GarrysMod::Lua::Type::Number );
-	LUA->CheckType( 2, GarrysMod::Lua::Type::Vector );
+	LUA->CheckType( 1, Type::Number );
+	LUA->CheckType( 2, Type::Vector );
 	int device = LUA->GetNumber( 1 );
 	Vector color = LUA->GetVector( 2 );
 	if ( init )
@@ -86,10 +86,10 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 	GChroma* chromainit;
 	chromainit = new GChroma();
 	auto init = chromainit->Initialize();
-	LUA->CheckType( 1, GarrysMod::Lua::Type::Number );
-	LUA->CheckType( 2, GarrysMod::Lua::Type::Vector );
-	LUA->CheckType( 3, GarrysMod::Lua::Type::Number );
-	LUA->CheckType( 4, GarrysMod::Lua::Type::Number );
+	LUA->CheckType( 1, Type::Number );
+	LUA->CheckType( 2, Type::Vector );
+	LUA->CheckType( 3, Type::Number );
+	LUA->CheckType( 4, Type::Number );
 	int device = LUA->GetNumber( 1 );
 	Vector color = LUA->GetVector( 2 );
 	double row = LUA->GetNumber( 3 );
@@ -143,7 +143,7 @@ LUA_FUNCTION( GChroma_ResetDevice )
 	GChroma* chromainit;
 	chromainit = new GChroma();
 	auto init = chromainit->Initialize();
-	LUA->CheckType( 1, GarrysMod::Lua::Type::Number );
+	LUA->CheckType( 1, Type::Number );
 	int device = LUA->GetNumber( 1 );
 	if ( init && device >= 0 && device <= 5 )
 	{
@@ -155,7 +155,7 @@ LUA_FUNCTION( GChroma_ResetDevice )
 
 GMOD_MODULE_OPEN()
 {
-	LUA->PushSpecial( GarrysMod::Lua::SPECIAL_GLOB );
+	LUA->PushSpecial( SPECIAL_GLOB );
 		LUA->PushCFunction( GChroma_SetDeviceColor );
 		LUA->SetField( -2, "GChroma_SetDeviceColor" );
 		LUA->PushCFunction( GChroma_SetDeviceColorEx );

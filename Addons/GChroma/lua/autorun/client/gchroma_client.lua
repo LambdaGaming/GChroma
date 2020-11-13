@@ -3,9 +3,9 @@ local function GChroma_Test()
 		local i = 1
 		timer.Create( "GChroma_Init", 0.5, 4, function()
 			local colors = {
-				Vector( 255, 0, 0 ),
-				Vector( 0, 255, 0 ),
-				Vector( 0, 0, 255 )
+				GCHROMA_COLOR_RED,
+				GCHROMA_COLOR_GREEN,
+				GCHROMA_COLOR_BLUE
 			}
 			if i == 4 then
 				GChroma_ResetDevice( GCHROMA_DEVICE_ALL )
@@ -56,5 +56,9 @@ end
 net.Receive( "GChroma_ResetDevice", ResetDevice )
 
 function GChroma_KeyConvert( key )
-	return _G["GCHROMA_KEY_"..input.GetKeyName( key ):upper()]
+	local convert = _G["GCHROMA_KEY_"..input.GetKeyName( key ):upper()]
+	if convert == nil then
+		return GCHROMA_KEY_INVALID
+	end
+	return convert
 end
