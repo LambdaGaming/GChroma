@@ -14,16 +14,15 @@
 	#define HEADSET_DEVICES     4
 	#define KEYPAD_DEVICES      5
 
-	//Class of your Chroma Implementation
 	class GChroma
 	{
 		public:
 			GChroma();
 			~GChroma();
 			BOOL Initialize();
+			BOOL Initialized;
 
 			void ResetEffects( size_t DeviceType );
-
 			void SetMouseColor( COLORREF color );
 			void SetMouseColorEx( size_t key, COLORREF color );
 			void SetKeyboardColor( COLORREF color );
@@ -34,11 +33,9 @@
 			void SetHeadsetColorEx( COLORREF color, size_t num );
 			void SetKeypadColor( COLORREF color );
 			void SetKeypadColorEx( COLORREF color, size_t row, size_t col );
-
-			BOOL IsDeviceConnected( RZDEVICEID DeviceId );
+			void PushColors( bool pattern, bool keys );
 
 		private:
 			HMODULE m_ChromaSDKModule;
-
 	};
 #endif

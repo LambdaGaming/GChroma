@@ -14,9 +14,8 @@
 &nbsp;
 
 # Planned Features
-- Some way of creating instances of the GChroma C++ class through Lua so developers can assign all of the colors they want before anything is sent over to Synapse, which should help with performance.
-- Support for patterns so developers don't have to use loops on the existing functions, which should also help with performance.
-- Possible support for 3rd party, non-razer devices that support Synapse such as LED strips.
+- Support for patterns so developers don't have to use loops on the existing functions, which should help with performance.
+- Possible support for 3rd party, non-razer devices that support Synapse such as LED strips and computer hardware.
 
 &nbsp;
 

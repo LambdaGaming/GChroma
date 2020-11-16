@@ -43,26 +43,12 @@ QUERYDEVICE QueryDevice = nullptr;
 
 Keyboard::CUSTOM_KEY_EFFECT_TYPE KeyboardEffect = {};
 Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {};
+Mousepad::CUSTOM_EFFECT_TYPE MousepadEffect = {};
+Headset::CUSTOM_EFFECT_TYPE HeadsetEffect = {};
+Keypad::CUSTOM_EFFECT_TYPE KeypadEffect = {};
 
-BOOL GChroma::IsDeviceConnected( RZDEVICEID DeviceId )
-{
-	if ( QueryDevice != nullptr )
-	{
-		ChromaSDK::DEVICE_INFO_TYPE DeviceInfo = {};
-		auto Result = QueryDevice( DeviceId, DeviceInfo );
-
-		return DeviceInfo.Connected;
-	}
-
-	return FALSE;
-}
-
-GChroma::GChroma() :m_ChromaSDKModule( nullptr )
-{
-}
-GChroma::~GChroma()
-{
-}
+GChroma::GChroma() :m_ChromaSDKModule( nullptr ) {}
+GChroma::~GChroma() {}
 
 BOOL GChroma::Initialize()
 {
@@ -71,6 +57,7 @@ BOOL GChroma::Initialize()
 		m_ChromaSDKModule = LoadLibrary( CHROMASDKDLL );
 		if ( m_ChromaSDKModule == nullptr )
 		{
+			Initialized = false;
 			return FALSE;
 		}
 	}
@@ -104,16 +91,18 @@ BOOL GChroma::Initialize()
 					DeleteEffect &&
 					QueryDevice )
 				{
+					Initialized = true;
 					return TRUE;
 				}
 				else
 				{
+					Initialized = false;
 					return FALSE;
 				}
 			}
 		}
 	}
-
+	Initialized = true;
 	return TRUE;
 }
 
@@ -124,61 +113,67 @@ void GChroma::ResetEffects( size_t DeviceType )
 		case 0:
 			if ( CreateKeyboardEffect )
 			{
-				CreateKeyboardEffect( ChromaSDK::Keyboard::CHROMA_NONE, nullptr, nullptr );
+				CreateKeyboardEffect( Keyboard::CHROMA_NONE, nullptr, nullptr );
 				KeyboardEffect = {};
 			}
 
 			if ( CreateMousepadEffect )
 			{
-				CreateMousepadEffect( ChromaSDK::Mousepad::CHROMA_NONE, nullptr, nullptr );
+				CreateMousepadEffect( Mousepad::CHROMA_NONE, nullptr, nullptr );
+				MousepadEffect = {};
 			}
 
 			if ( CreateMouseEffect )
 			{
-				CreateMouseEffect( ChromaSDK::Mouse::CHROMA_NONE, nullptr, nullptr );
+				CreateMouseEffect( Mouse::CHROMA_NONE, nullptr, nullptr );
 				MouseEffect = {};
 			}
 
 			if ( CreateHeadsetEffect )
 			{
-				CreateHeadsetEffect( ChromaSDK::Headset::CHROMA_NONE, nullptr, nullptr );
+				CreateHeadsetEffect( Headset::CHROMA_NONE, nullptr, nullptr );
+				HeadsetEffect = {};
 			}
 
 			if ( CreateKeypadEffect )
 			{
-				CreateKeypadEffect( ChromaSDK::Keypad::CHROMA_NONE, nullptr, nullptr );
+				CreateKeypadEffect( Keypad::CHROMA_NONE, nullptr, nullptr );
+				KeypadEffect = {};
 			}
 			break;
 		case 1:
 			if ( CreateKeyboardEffect )
 			{
-				CreateKeyboardEffect( ChromaSDK::Keyboard::CHROMA_NONE, nullptr, nullptr );
+				CreateKeyboardEffect( Keyboard::CHROMA_NONE, nullptr, nullptr );
 				KeyboardEffect = {};
 			}
 			break;
 		case 2:
 			if ( CreateMousepadEffect )
 			{
-				CreateMousepadEffect( ChromaSDK::Mousepad::CHROMA_NONE, nullptr, nullptr );
+				CreateMousepadEffect( Mousepad::CHROMA_NONE, nullptr, nullptr );
+				MousepadEffect = {};
 			}
 			break;
 		case 3:
 			if ( CreateMouseEffect )
 			{
-				CreateMouseEffect( ChromaSDK::Mouse::CHROMA_NONE, nullptr, nullptr );
+				CreateMouseEffect( Mouse::CHROMA_NONE, nullptr, nullptr );
 				MouseEffect = {};
 			}
 			break;
 		case 4:
 			if ( CreateHeadsetEffect )
 			{
-				CreateHeadsetEffect( ChromaSDK::Headset::CHROMA_NONE, nullptr, nullptr );
+				CreateHeadsetEffect( Headset::CHROMA_NONE, nullptr, nullptr );
+				HeadsetEffect = {};
 			}
 			break;
 		case 5:
 			if ( CreateKeypadEffect )
 			{
-				CreateKeypadEffect( ChromaSDK::Keypad::CHROMA_NONE, nullptr, nullptr );
+				CreateKeypadEffect( Keypad::CHROMA_NONE, nullptr, nullptr );
+				KeypadEffect = {};
 			}
 			break;
 	}
@@ -186,176 +181,97 @@ void GChroma::ResetEffects( size_t DeviceType )
 
 void GChroma::SetMouseColor( COLORREF color )
 {
-	try
+	for ( size_t row = 0; row < Mouse::MAX_ROW; row++ )
 	{
-		for ( size_t row = 0; row < Mouse::MAX_ROW; row++ )
+		for ( size_t col = 0; col < Mouse::MAX_COLUMN; col++ )
 		{
-			for ( size_t col = 0; col < Mouse::MAX_COLUMN; col++ )
-			{
-				MouseEffect.Color[row][col] = color; // Fill in the entire grid with the same color
-			}
+			MouseEffect.Color[row][col] = color; // Fill in the entire grid with the same color
 		}
 	}
-	catch ( ... )
-	{
-		return;
-	}
-
-	CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
 }
 
 void GChroma::SetMouseColorEx( size_t key, COLORREF color )
 {
-	try
-	{
-		MouseEffect.Color[HIBYTE( key )][LOBYTE( key )] = color;
-	}
-	catch ( ... )
-	{
-		return;
-	}
-
-	CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
+	MouseEffect.Color[HIBYTE( key )][LOBYTE( key )] = color;
 }
 
 void GChroma::SetKeyboardColor( COLORREF color )
 {
-	try
+	for ( size_t row = 0; row < Keyboard::MAX_ROW; row++ )
 	{
-		for ( size_t row = 0; row < Keyboard::MAX_ROW; row++ )
+		for ( size_t col = 0; col < Keyboard::MAX_COLUMN; col++ )
 		{
-			for ( size_t col = 0; col < Keyboard::MAX_COLUMN; col++ )
-			{
-				KeyboardEffect.Color[row][col] = color;
-			}
+			KeyboardEffect.Color[row][col] = color;
 		}
 	}
-	catch ( ... )
-	{
-		return;
-	}
-
-	CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM, &KeyboardEffect, nullptr );
 }
 
 void GChroma::SetKeyboardColorEx( size_t key, COLORREF color )
 {
-	try
-	{
-		KeyboardEffect.Key[HIBYTE( key )][LOBYTE( key )] = 0x01000000 | color;
-	}
-	catch ( ... )
-	{
-		return;
-	}
-
-	CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM_KEY, &KeyboardEffect, NULL );
+	KeyboardEffect.Key[HIBYTE( key )][LOBYTE( key )] = 0x01000000 | color;
 }
 
 void GChroma::SetMousepadColor( COLORREF color )
 {
-	Mousepad::CUSTOM_EFFECT_TYPE MousepadEffect = {};
-
-	try
+	for ( size_t i = 0; i < Mousepad::MAX_LEDS; i++ )
 	{
-		for ( size_t i = 0; i < Mousepad::MAX_LEDS; i++ )
-		{
-			MousepadEffect.Color[i] = color;
-		}
+		MousepadEffect.Color[i] = color;
 	}
-	catch ( ... )
-	{
-		return;
-	}
-
-	CreateMousepadEffect( Mousepad::CHROMA_CUSTOM, &MousepadEffect, nullptr );
 }
 
 void GChroma::SetMousepadColorEx( COLORREF color, size_t num )
 {
-	Mousepad::CUSTOM_EFFECT_TYPE MousepadEffect = {};
-
-	try
-	{
-		MousepadEffect.Color[num] = color;
-	}
-	catch ( ... )
-	{
-		return;
-	}
-
-	CreateMousepadEffect( Mousepad::CHROMA_CUSTOM, &MousepadEffect, nullptr );
+	MousepadEffect.Color[num] = color;
 }
 
 void GChroma::SetHeadsetColor( COLORREF color )
 {
-	Headset::CUSTOM_EFFECT_TYPE HeadsetEffect = {};
-
-	try
+	for ( size_t i = 0; i < Headset::MAX_LEDS; i++ )
 	{
-		for ( size_t i = 0; i < Headset::MAX_LEDS; i++ )
-		{
-			HeadsetEffect.Color[i] = color;
-		}
+		HeadsetEffect.Color[i] = color;
 	}
-	catch ( ... )
-	{
-		return;
-	}
-
-	CreateHeadsetEffect( Headset::CHROMA_CUSTOM, &HeadsetEffect, nullptr );
 }
 
 void GChroma::SetHeadsetColorEx( COLORREF color, size_t num )
 {
-	Headset::CUSTOM_EFFECT_TYPE HeadsetEffect = {};
-
-	try
-	{
-		HeadsetEffect.Color[num] = color;
-	}
-	catch ( ... )
-	{
-		return;
-	}
-
-	CreateHeadsetEffect( Headset::CHROMA_CUSTOM, &HeadsetEffect, nullptr );
+	HeadsetEffect.Color[num] = color;
 }
 
 void GChroma::SetKeypadColor( COLORREF color )
 {
-	Keypad::CUSTOM_EFFECT_TYPE KeypadEffect = {};
-
-	try
+	for ( size_t row = 0; row < Keypad::MAX_ROW; row++ )
 	{
-		for ( size_t row = 0; row < Keypad::MAX_ROW; row++ )
+		for ( size_t col = 0; col < Keypad::MAX_COLUMN; col++ )
 		{
-			for ( size_t col = 0; col < Keypad::MAX_COLUMN; col++ )
-			{
-				KeypadEffect.Color[row][col] = color;
-			}
+			KeypadEffect.Color[row][col] = color;
 		}
 	}
-	catch ( ... )
-	{
-		return;
-	}
-
-	CreateKeypadEffect( Keypad::CHROMA_CUSTOM, &KeypadEffect, nullptr );
 }
 
 void GChroma::SetKeypadColorEx( COLORREF color, size_t row, size_t col )
 {
-	Keypad::CUSTOM_EFFECT_TYPE KeypadEffect = {};
+	KeypadEffect.Color[row][col] = color;
+}
 
-	try
+void GChroma::PushColors( bool pattern, bool keys )
+{
+	if ( pattern )
 	{
-		KeypadEffect.Color[row][col] = color;
+		// TODO: Add pattern support
 	}
-	catch ( ... )
+	else
 	{
-		return;
+		if ( keys )
+		{
+			CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM_KEY, &KeyboardEffect, NULL );
+		}
+		else
+		{
+			CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM, &KeyboardEffect, nullptr );
+		}
+		CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
+		CreateMousepadEffect( Mousepad::CHROMA_CUSTOM, &MousepadEffect, nullptr );
+		CreateHeadsetEffect( Headset::CHROMA_CUSTOM, &HeadsetEffect, nullptr );
+		CreateKeypadEffect( Keypad::CHROMA_CUSTOM, &KeypadEffect, nullptr );
 	}
-
-	CreateKeypadEffect( Keypad::CHROMA_CUSTOM, &KeypadEffect, nullptr );
 }

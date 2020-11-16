@@ -19,7 +19,7 @@ hook.Add( "PostPlayerDeath", "GChromaPlayerDeath", GChromaPlayerDeath )
 
 util.AddNetworkString( "GChromaNoclip" )
 local function GChromaPlayerNoclip( ply, enable )
-	if GChroma_Loaded and IsFirstTimePredicted() then
+	if GChroma_Loaded and IsFirstTimePredicted() then --This hook is predicted so it needs to be run server-side in order to work in singleplayer
 		net.Start( "GChromaNoclip" )
 		net.WriteBool( enable )
 		net.Send( ply )
