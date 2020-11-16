@@ -3,6 +3,14 @@
 
 &nbsp;
 
+# Before You Start
+ Before you start developing for GChroma, take note of the following:
+ 1. Make sure your addon doesn't interfere with other addons. GChroma currently has no way of knowing what addon is supposed to take priority, and 
+ 2. Avoid running resource-intensive functions in loops, specifically `GChroma_Start()` and `GChroma_CreateEffect()`. Failure to do so could result in extreme lag and/or crashes.
+ 3. Avoid using `GChroma_SetDeviceColor()`, `GChroma_SetDeviceColorEx()`, and `GChroma_ResetDevice()` in server-side code whenever possible. The client-side functions are designed to allow developers to change colors across multiple devices while only requiring `GChroma_CreateEffect()` to be called once, which helps immensely with performance. The server-side functions have no way of doing this.
+
+&nbsp;
+
 # GChroma_Start()
  ## Scope
  Client

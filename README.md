@@ -8,14 +8,19 @@
 
 &nbsp;
 
-# Note to Developers
- When adding support to your addon, make sure it doesn't interfere with other addons. GChroma currently has no way of knowing what addon is supposed to take priority.
+# Installing
+ 1. Make sure you have Razer Synapse 3 installed and running, and obviously make sure you have a device that supports Razer Synapse 3. (Legacy Synapse versions might work but are unsupported by me.)
+ 2. Download the GChroma base addon from [here.]()
+ 3. Download the latest GChroma binary module from [here.](https://github.com/LambdaGaming/GChroma/releases) Make sure you download the 32-bit version unless you're running the x86-64 branch.
+ 4. Move the downloaded binary module to `steamapps/common/garrysmod/garrysmod/lua/bin`. You may have to create the bin folder yourself.
+ 5. Download GChroma-supported addons from [here](), or start developing your own. Enjoy!
 
 &nbsp;
 
 # Planned Features
 - Support for patterns so developers don't have to use loops on the existing functions, which should help with performance.
 - Possible support for 3rd party, non-razer devices that support Synapse such as LED strips and computer hardware.
+- Better Lua enums so more keys obtained with `input.LookupBinding()` are supported.
 
 &nbsp;
 
