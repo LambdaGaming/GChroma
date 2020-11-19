@@ -253,25 +253,18 @@ void GChroma::SetKeypadColorEx( COLORREF color, size_t row, size_t col )
 	KeypadEffect.Color[row][col] = color;
 }
 
-void GChroma::PushColors( bool pattern, bool keys )
+void GChroma::PushColors( bool keys )
 {
-	if ( pattern )
+	if ( keys )
 	{
-		// TODO: Add pattern support
+		CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM_KEY, &KeyboardEffect, NULL );
 	}
 	else
 	{
-		if ( keys )
-		{
-			CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM_KEY, &KeyboardEffect, NULL );
-		}
-		else
-		{
-			CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM, &KeyboardEffect, nullptr );
-		}
-		CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
-		CreateMousepadEffect( Mousepad::CHROMA_CUSTOM, &MousepadEffect, nullptr );
-		CreateHeadsetEffect( Headset::CHROMA_CUSTOM, &HeadsetEffect, nullptr );
-		CreateKeypadEffect( Keypad::CHROMA_CUSTOM, &KeypadEffect, nullptr );
+		CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM, &KeyboardEffect, nullptr );
 	}
+	CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
+	CreateMousepadEffect( Mousepad::CHROMA_CUSTOM, &MousepadEffect, nullptr );
+	CreateHeadsetEffect( Headset::CHROMA_CUSTOM, &HeadsetEffect, nullptr );
+	CreateKeypadEffect( Keypad::CHROMA_CUSTOM, &KeypadEffect, nullptr );
 }

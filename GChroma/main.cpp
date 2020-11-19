@@ -252,10 +252,9 @@ LUA_FUNCTION( GChroma_ResetDevice )
 }
 
 /*
-	GChroma_CreateEffect( UserData instance, Bool pattern, Bool key )
+	GChroma_CreateEffect( UserData instance, Bool key )
 	Arguments:
 		instance - Instance of the GChroma class you want to use this function with, created with GChroma_Start()
-		pattern - Optional. Set to true if your effect is a pattern.
 		key - Optional. Set to true if your effect edits keyboard keys with enums.
 	Returns: None
 	Example: GChroma_CreateEffect( chroma )
@@ -264,20 +263,11 @@ LUA_FUNCTION( GChroma_CreateEffect )
 {
 	LUA->CheckType( 1, Type::UserData );
 	GChroma* instance = LUA->GetUserType<GChroma>( 1, Type::UserData );
-	bool pattern;
 	bool key;
+
 	if ( LUA->IsType( 2, Type::Bool ) )
 	{
-		pattern = LUA->GetBool( 2 );
-	}
-	else
-	{
-		pattern = false;
-	}
-
-	if ( LUA->IsType( 3, Type::Bool ) )
-	{
-		key = LUA->GetBool( 3 );
+		key = LUA->GetBool( 2 );
 	}
 	else
 	{
@@ -286,7 +276,7 @@ LUA_FUNCTION( GChroma_CreateEffect )
 
 	try
 	{
-		instance->PushColors( pattern, key );
+		instance->PushColors( key );
 	}
 	catch ( std::exception e )
 	{

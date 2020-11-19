@@ -1,5 +1,5 @@
 # About
- GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows x86 and Windows x64. The Lua documentation can be found [here](https://github.com/LambdaGaming/GChroma/blob/main/doc.md) and some examples can be found [here.](https://github.com/LambdaGaming/GChroma/tree/main/Addons)
+ GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows x86 and Windows x64. The Lua documentation can be found [here](https://github.com/LambdaGaming/GChroma/blob/main/doc.md) and some examples can be found [here](https://github.com/LambdaGaming/GChroma_Player_Module) and [here.](https://github.com/LambdaGaming/GChroma_Lua_Base)
 
 &nbsp;
 
@@ -17,13 +17,6 @@
 
 &nbsp;
 
-# Planned Features
-- Support for patterns so developers don't have to use loops on the existing functions, which should help with performance.
-- Possible support for 3rd party, non-razer devices that support Synapse such as LED strips and computer hardware.
-- Better Lua enums so more keys obtained with `input.LookupBinding()` are supported.
-
-&nbsp;
-
 # FAQs
  ## Does this work on servers?
  Yes, but the server needs to have the base addon for it to work on your end.
@@ -33,3 +26,9 @@
 
  ## Does this work on beta branches of the game?
  It works on the x86-64 branch. Other branches haven't been tested.
+
+ ## Is animation support planned?
+ No, and it probably never will be, but we'll see. The way animations currently work is a bit complex. It would be hard to integrate it without making the code overly complex on the Lua side.
+
+ ## Does this work with 3rd party devices?
+ It might. Razer isn't clear on whether or not the Chroma SDK works with non-Razer devices. I tried it with MSI MysticLight and couldn't get it to work but you may get different results.
