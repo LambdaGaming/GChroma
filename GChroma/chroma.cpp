@@ -253,16 +253,9 @@ void GChroma::SetKeypadColorEx( COLORREF color, size_t row, size_t col )
 	KeypadEffect.Color[row][col] = color;
 }
 
-void GChroma::PushColors( bool keys )
+void GChroma::PushColors()
 {
-	if ( keys )
-	{
-		CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM_KEY, &KeyboardEffect, NULL );
-	}
-	else
-	{
-		CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM, &KeyboardEffect, nullptr );
-	}
+	CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM_KEY, &KeyboardEffect, NULL );
 	CreateMouseEffect( Mouse::CHROMA_CUSTOM2, &MouseEffect, nullptr );
 	CreateMousepadEffect( Mousepad::CHROMA_CUSTOM, &MousepadEffect, nullptr );
 	CreateHeadsetEffect( Headset::CHROMA_CUSTOM, &HeadsetEffect, nullptr );

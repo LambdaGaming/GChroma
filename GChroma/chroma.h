@@ -33,7 +33,7 @@
 			void SetHeadsetColorEx( COLORREF color, size_t num );
 			void SetKeypadColor( COLORREF color );
 			void SetKeypadColorEx( COLORREF color, size_t row, size_t col );
-			void PushColors( bool keys );
+			void PushColors();
 
 		private:
 			HMODULE m_ChromaSDKModule;

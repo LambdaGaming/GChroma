@@ -113,7 +113,7 @@ end
 if GChroma_Loaded then
 	local chroma = GChroma_Start()
 	GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 255, 0, 0 ), GCHROMA_KEY_W, 0 )
-	GChroma_CreateEffect( chroma, true )
+	GChroma_CreateEffect( chroma )
 end
  ```
 
@@ -141,7 +141,7 @@ end
 
 &nbsp;
 
-# GChroma_CreateEffect( `userdata` instance, `bool` key )
+# GChroma_CreateEffect( `userdata` instance )
  ## Scope
  Client
 
@@ -150,8 +150,6 @@ end
 
  ## Arguments
  1. `userdata` instance - Instance of the GChroma effect created with GChroma_Start().
-
- 2. `bool` key - Optional. Set to true if your effect modifies keyboard keys using the GCHROMA_KEY_* enums listed at the bottom of the page.
 
  ## Example 1
  Sets all 4 corners of the mouse pad to green.
@@ -162,7 +160,7 @@ end
 	for k,v in pairs( grid ) do
 	    GChroma_SetDeviceColorEx( chroma, GCHROMA_DEVICE_MOUSEPAD, GCHROMA_COLOR_GREEN, v, 0 )
 	end
-	GChroma_CreateEffect( chroma, false )
+	GChroma_CreateEffect( chroma )
  end
  ```
 

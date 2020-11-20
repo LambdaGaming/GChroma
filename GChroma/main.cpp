@@ -263,20 +263,10 @@ LUA_FUNCTION( GChroma_CreateEffect )
 {
 	LUA->CheckType( 1, Type::UserData );
 	GChroma* instance = LUA->GetUserType<GChroma>( 1, Type::UserData );
-	bool key;
-
-	if ( LUA->IsType( 2, Type::Bool ) )
-	{
-		key = LUA->GetBool( 2 );
-	}
-	else
-	{
-		key = false;
-	}
 
 	try
 	{
-		instance->PushColors( key );
+		instance->PushColors();
 	}
 	catch ( std::exception e )
 	{
