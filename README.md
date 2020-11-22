@@ -39,4 +39,4 @@
  No, and it probably never will be, but we'll see. The way animations currently work is a bit complex. It would be hard to integrate it without making the code overly complex on the Lua side.
 
  ## Does this work with 3rd party devices?
- It might. Razer isn't clear on whether or not the Chroma SDK works with non-Razer devices. I tried it with MSI MysticLight and couldn't get it to work but you may get different results.
+ If your RGB software is picked up by Razer Synapse as a device there's a good chance it will work. MSI MysticLight seems to work as long as you turn on Game Sync.
