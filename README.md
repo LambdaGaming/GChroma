@@ -1,3 +1,5 @@
+![GChroma Logo](logo.png)
+
 # About
  GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows x86 and Windows x64. The Lua documentation can be found [here](https://github.com/LambdaGaming/GChroma/blob/main/doc.md) and some examples can be found [here](https://github.com/LambdaGaming/GChroma_Player_Module) and [here.](https://github.com/LambdaGaming/GChroma_Lua_Base)
 
