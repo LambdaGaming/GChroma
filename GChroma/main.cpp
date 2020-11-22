@@ -47,7 +47,6 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 		switch ( device )
 		{
 			case 0:
-			{
 				try
 				{
 					instance->SetMouseColor( convert );
@@ -55,15 +54,14 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 					instance->SetMousepadColor( convert );
 					instance->SetKeypadColor( convert );
 					instance->SetHeadsetColor( convert );
+					instance->SetLinkColor( convert );
 				}
 				catch ( exception e )
 				{
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
 			case 1:
-			{
 				try
 				{
 					instance->SetKeyboardColor( convert );
@@ -73,9 +71,7 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
 			case 2:
-			{
 				try
 				{
 					instance->SetMousepadColor( convert );
@@ -85,9 +81,7 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
 			case 3:
-			{
 				try
 				{
 					instance->SetMouseColor( convert );
@@ -97,9 +91,7 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
 			case 4:
-			{
 				try
 				{
 					instance->SetHeadsetColor( convert );
@@ -109,9 +101,7 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
 			case 5:
-			{
 				try
 				{
 					instance->SetKeypadColor( convert );
@@ -121,7 +111,16 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
+			case 6:
+				try
+				{
+					instance->SetLinkColor( convert );
+				}
+				catch ( exception e )
+				{
+					LUA->ThrowError( e.what() );
+				}
+				break;
 			default: break; // Don't do anything if a valid device wasn't input
 		}
 	}
@@ -160,7 +159,6 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 		switch ( device )
 		{
 			case 1:
-			{
 				try
 				{
 					instance->SetKeyboardColorEx( row, convert );
@@ -170,9 +168,7 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
 			case 2:
-			{
 				try
 				{
 					instance->SetMousepadColorEx( convert, row );
@@ -182,9 +178,7 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
 			case 3:
-			{
 				try
 				{
 					instance->SetMouseColorEx( row, convert );
@@ -194,9 +188,7 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
 			case 4:
-			{
 				try
 				{
 					instance->SetHeadsetColorEx( convert, row );
@@ -206,9 +198,7 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
 			case 5:
-			{
 				try
 				{
 					instance->SetKeypadColorEx( convert, row, col );
@@ -218,7 +208,16 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 					LUA->ThrowError( e.what() );
 				}
 				break;
-			}
+			case 6:
+				try
+				{
+					instance->SetLinkColor( convert );
+				}
+				catch ( exception e )
+				{
+					LUA->ThrowError( e.what() );
+				}
+				break;
 			default: break;
 		}
 	}

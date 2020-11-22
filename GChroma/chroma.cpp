@@ -8,21 +8,17 @@
 #endif
 
 using namespace ChromaSDK;
-using namespace ChromaSDK::Keyboard;
-using namespace ChromaSDK::Keypad;
-using namespace ChromaSDK::Mouse;
-using namespace ChromaSDK::Mousepad;
-using namespace ChromaSDK::Headset;
 using namespace std;
 
 typedef RZRESULT( *INIT )( void );
 typedef RZRESULT( *UNINIT )( void );
 typedef RZRESULT( *CREATEEFFECT )( RZDEVICEID DeviceId, ChromaSDK::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
-typedef RZRESULT( *CREATEKEYBOARDEFFECT )( ChromaSDK::Keyboard::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
-typedef RZRESULT( *CREATEHEADSETEFFECT )( ChromaSDK::Headset::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
-typedef RZRESULT( *CREATEMOUSEPADEFFECT )( ChromaSDK::Mousepad::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
-typedef RZRESULT( *CREATEMOUSEEFFECT )( ChromaSDK::Mouse::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
-typedef RZRESULT( *CREATEKEYPADEFFECT )( ChromaSDK::Keypad::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
+typedef RZRESULT( *CREATEKEYBOARDEFFECT )( Keyboard::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
+typedef RZRESULT( *CREATEHEADSETEFFECT )( Headset::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
+typedef RZRESULT( *CREATEMOUSEPADEFFECT )( Mousepad::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
+typedef RZRESULT( *CREATEMOUSEEFFECT )( Mouse::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
+typedef RZRESULT( *CREATEKEYPADEFFECT )( Keypad::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
+typedef RZRESULT( *CREATELINKEFFECT )( ChromaLink::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
 typedef RZRESULT( *SETEFFECT )( RZEFFECTID EffectId );
 typedef RZRESULT( *DELETEEFFECT )( RZEFFECTID EffectId );
 typedef RZRESULT( *REGISTEREVENTNOTIFICATION )( HWND hWnd );
@@ -37,6 +33,7 @@ CREATEMOUSEEFFECT CreateMouseEffect = nullptr;
 CREATEHEADSETEFFECT CreateHeadsetEffect = nullptr;
 CREATEMOUSEPADEFFECT CreateMousepadEffect = nullptr;
 CREATEKEYPADEFFECT CreateKeypadEffect = nullptr;
+CREATELINKEFFECT CreateLinkEffect = nullptr;
 SETEFFECT SetEffect = nullptr;
 DELETEEFFECT DeleteEffect = nullptr;
 QUERYDEVICE QueryDevice = nullptr;
@@ -46,6 +43,7 @@ Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {};
 Mousepad::CUSTOM_EFFECT_TYPE MousepadEffect = {};
 Headset::CUSTOM_EFFECT_TYPE HeadsetEffect = {};
 Keypad::CUSTOM_EFFECT_TYPE KeypadEffect = {};
+ChromaLink::CUSTOM_EFFECT_TYPE LinkEffect = {};
 
 GChroma::GChroma() :m_ChromaSDKModule( nullptr ) {}
 GChroma::~GChroma() {}
@@ -65,21 +63,22 @@ BOOL GChroma::Initialize()
 	if ( Init == nullptr )
 	{
 		auto Result = RZRESULT_INVALID;
-		Init = reinterpret_cast< INIT >( GetProcAddress( m_ChromaSDKModule, "Init" ) );
+		Init = reinterpret_cast<INIT>( GetProcAddress( m_ChromaSDKModule, "Init" ) );
 		if ( Init )
 		{
 			Result = Init();
 			if ( Result == RZRESULT_SUCCESS )
 			{
-				CreateEffect = reinterpret_cast< CREATEEFFECT >( GetProcAddress( m_ChromaSDKModule, "CreateEffect" ) );
-				CreateKeyboardEffect = reinterpret_cast< CREATEKEYBOARDEFFECT >( GetProcAddress( m_ChromaSDKModule, "CreateKeyboardEffect" ) );
-				CreateMouseEffect = reinterpret_cast< CREATEMOUSEEFFECT >( GetProcAddress( m_ChromaSDKModule, "CreateMouseEffect" ) );
-				CreateHeadsetEffect = reinterpret_cast< CREATEHEADSETEFFECT >( GetProcAddress( m_ChromaSDKModule, "CreateHeadsetEffect" ) );
-				CreateMousepadEffect = reinterpret_cast< CREATEMOUSEPADEFFECT >( GetProcAddress( m_ChromaSDKModule, "CreateMousepadEffect" ) );
-				CreateKeypadEffect = reinterpret_cast< CREATEKEYPADEFFECT >( GetProcAddress( m_ChromaSDKModule, "CreateKeypadEffect" ) );
-				SetEffect = reinterpret_cast< SETEFFECT >( GetProcAddress( m_ChromaSDKModule, "SetEffect" ) );
-				DeleteEffect = reinterpret_cast< DELETEEFFECT >( GetProcAddress( m_ChromaSDKModule, "DeleteEffect" ) );
-				QueryDevice = reinterpret_cast< QUERYDEVICE >( GetProcAddress( m_ChromaSDKModule, "QueryDevice" ) );
+				CreateEffect = reinterpret_cast<CREATEEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateEffect" ) );
+				CreateKeyboardEffect = reinterpret_cast<CREATEKEYBOARDEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateKeyboardEffect" ) );
+				CreateMouseEffect = reinterpret_cast<CREATEMOUSEEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateMouseEffect" ) );
+				CreateHeadsetEffect = reinterpret_cast<CREATEHEADSETEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateHeadsetEffect" ) );
+				CreateMousepadEffect = reinterpret_cast<CREATEMOUSEPADEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateMousepadEffect" ) );
+				CreateKeypadEffect = reinterpret_cast<CREATEKEYPADEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateKeypadEffect" ) );
+				CreateLinkEffect = reinterpret_cast<CREATELINKEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateChromaLinkEffect" ) );
+				SetEffect = reinterpret_cast<SETEFFECT>( GetProcAddress( m_ChromaSDKModule, "SetEffect" ) );
+				DeleteEffect = reinterpret_cast<DELETEEFFECT>( GetProcAddress( m_ChromaSDKModule, "DeleteEffect" ) );
+				QueryDevice = reinterpret_cast<QUERYDEVICE>( GetProcAddress( m_ChromaSDKModule, "QueryDevice" ) );
 
 				if ( CreateEffect &&
 					CreateKeyboardEffect &&
@@ -87,6 +86,7 @@ BOOL GChroma::Initialize()
 					CreateHeadsetEffect &&
 					CreateMousepadEffect &&
 					CreateKeypadEffect &&
+					CreateLinkEffect &&
 					SetEffect &&
 					DeleteEffect &&
 					QueryDevice )
@@ -140,6 +140,12 @@ void GChroma::ResetEffects( size_t DeviceType )
 				CreateKeypadEffect( Keypad::CHROMA_NONE, nullptr, nullptr );
 				KeypadEffect = {};
 			}
+
+			if ( CreateLinkEffect )
+			{
+				CreateLinkEffect( ChromaLink::CHROMA_NONE, nullptr, nullptr );
+				LinkEffect = {};
+			}
 			break;
 		case 1:
 			if ( CreateKeyboardEffect )
@@ -174,6 +180,13 @@ void GChroma::ResetEffects( size_t DeviceType )
 			{
 				CreateKeypadEffect( Keypad::CHROMA_NONE, nullptr, nullptr );
 				KeypadEffect = {};
+			}
+			break;
+		case 6:
+			if ( CreateLinkEffect )
+			{
+				CreateLinkEffect( ChromaLink::CHROMA_NONE, nullptr, nullptr );
+				LinkEffect = {};
 			}
 			break;
 	}
@@ -253,6 +266,14 @@ void GChroma::SetKeypadColorEx( COLORREF color, size_t row, size_t col )
 	KeypadEffect.Color[row][col] = color;
 }
 
+void GChroma::SetLinkColor( COLORREF color )
+{
+	for ( size_t i = 0; i < ChromaLink::MAX_LEDS; i++ )
+	{
+		LinkEffect.Color[i] = color;
+	}
+}
+
 void GChroma::PushColors()
 {
 	CreateKeyboardEffect( Keyboard::CHROMA_CUSTOM_KEY, &KeyboardEffect, NULL );
@@ -260,4 +281,5 @@ void GChroma::PushColors()
 	CreateMousepadEffect( Mousepad::CHROMA_CUSTOM, &MousepadEffect, nullptr );
 	CreateHeadsetEffect( Headset::CHROMA_CUSTOM, &HeadsetEffect, nullptr );
 	CreateKeypadEffect( Keypad::CHROMA_CUSTOM, &KeypadEffect, nullptr );
+	CreateLinkEffect( ChromaLink::CHROMA_CUSTOM, &LinkEffect, nullptr );
 }

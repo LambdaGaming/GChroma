@@ -13,6 +13,7 @@
 	#define MOUSE_DEVICES       3
 	#define HEADSET_DEVICES     4
 	#define KEYPAD_DEVICES      5
+	#define LINK_DEVICES		6
 
 	class GChroma
 	{
@@ -33,6 +34,7 @@
 			void SetHeadsetColorEx( COLORREF color, size_t num );
 			void SetKeypadColor( COLORREF color );
 			void SetKeypadColorEx( COLORREF color, size_t row, size_t col );
+			void SetLinkColor( COLORREF color );
 			void PushColors();
 
 		private:
