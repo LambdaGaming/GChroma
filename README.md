@@ -40,3 +40,9 @@
 
  ## Does this work with 3rd party devices?
  If your RGB software is picked up by Razer Synapse as a device there's a good chance it will work. MSI MysticLight seems to work as long as you turn on Game Sync.
+
+&nbsp;
+
+# Legal
+ - All GChroma content made by me, [Source 2 Gman](https://steamcommunity.com/profiles/76561198136556075), AKA [LambdaGaming](https://github.com/LambdaGaming) is licensed under the [MIT license.](https://github.com/LambdaGaming/GChroma/blob/main/LICENSE)
+ - RAZER is the registered trademark of Razer Inc. Razer has no affiliation whatsoever with me or my addons.
