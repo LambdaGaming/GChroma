@@ -5,6 +5,7 @@ Please read below before creating issues or pull requests.
 - Issues can be in any format you'd like as long as it's readable and in English.
 - Avoid making duplicate issues. Check to make sure the issue you want to report hasn't been reported already.
 - Verify that this module is responsible for your issue before reporting.
+- Also verify that you have followed the install instructions correctly before reporting.
 
 ## Pull Requests
 - Try to keep your pull requests small and directed towards a single change. If you want to change or add multiple unrelated things, make separate pull requests for each of them.
