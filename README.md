@@ -20,7 +20,7 @@
 &nbsp;
 
 # Contributing/Compiling
-- If you want to contribute, please read the [contributing guidelines](https://github.com/LambdaGaming/GChroma/blob/main/CONTRIBUTING.md) before making a pull request.
+- If you want to contribute, please read the [contributing guidelines](https://lambdagaming.github.io/contributing.html) before making a pull request.
 - The project files for Visual Studio 2019 are included. You will need to download and add the [Garry's Mod binary module headers](https://github.com/Facepunch/gmod-module-base/tree/development) as well as add the Razer Chroma SDK headers, which should automatically download with [Razer Synapse](https://www.razer.com/synapse-3).
 
 &nbsp;
