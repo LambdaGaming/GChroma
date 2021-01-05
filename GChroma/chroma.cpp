@@ -19,11 +19,6 @@ typedef RZRESULT( *CREATEMOUSEPADEFFECT )( Mousepad::EFFECT_TYPE Effect, PRZPARA
 typedef RZRESULT( *CREATEMOUSEEFFECT )( Mouse::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
 typedef RZRESULT( *CREATEKEYPADEFFECT )( Keypad::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
 typedef RZRESULT( *CREATELINKEFFECT )( ChromaLink::EFFECT_TYPE Effect, PRZPARAM pParam, RZEFFECTID* pEffectId );
-typedef RZRESULT( *SETEFFECT )( RZEFFECTID EffectId );
-typedef RZRESULT( *DELETEEFFECT )( RZEFFECTID EffectId );
-typedef RZRESULT( *REGISTEREVENTNOTIFICATION )( HWND hWnd );
-typedef RZRESULT( *UNREGISTEREVENTNOTIFICATION )( void );
-typedef RZRESULT( *QUERYDEVICE )( RZDEVICEID DeviceId, ChromaSDK::DEVICE_INFO_TYPE& DeviceInfo );
 
 INIT Init = nullptr;
 UNINIT UnInit = nullptr;
@@ -34,9 +29,6 @@ CREATEHEADSETEFFECT CreateHeadsetEffect = nullptr;
 CREATEMOUSEPADEFFECT CreateMousepadEffect = nullptr;
 CREATEKEYPADEFFECT CreateKeypadEffect = nullptr;
 CREATELINKEFFECT CreateLinkEffect = nullptr;
-SETEFFECT SetEffect = nullptr;
-DELETEEFFECT DeleteEffect = nullptr;
-QUERYDEVICE QueryDevice = nullptr;
 
 Keyboard::CUSTOM_KEY_EFFECT_TYPE KeyboardEffect = {};
 Mouse::CUSTOM_EFFECT_TYPE2 MouseEffect = {};
@@ -76,9 +68,6 @@ BOOL GChroma::Initialize()
 				CreateMousepadEffect = reinterpret_cast<CREATEMOUSEPADEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateMousepadEffect" ) );
 				CreateKeypadEffect = reinterpret_cast<CREATEKEYPADEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateKeypadEffect" ) );
 				CreateLinkEffect = reinterpret_cast<CREATELINKEFFECT>( GetProcAddress( m_ChromaSDKModule, "CreateChromaLinkEffect" ) );
-				SetEffect = reinterpret_cast<SETEFFECT>( GetProcAddress( m_ChromaSDKModule, "SetEffect" ) );
-				DeleteEffect = reinterpret_cast<DELETEEFFECT>( GetProcAddress( m_ChromaSDKModule, "DeleteEffect" ) );
-				QueryDevice = reinterpret_cast<QUERYDEVICE>( GetProcAddress( m_ChromaSDKModule, "QueryDevice" ) );
 
 				if ( CreateEffect &&
 					CreateKeyboardEffect &&
@@ -86,10 +75,7 @@ BOOL GChroma::Initialize()
 					CreateHeadsetEffect &&
 					CreateMousepadEffect &&
 					CreateKeypadEffect &&
-					CreateLinkEffect &&
-					SetEffect &&
-					DeleteEffect &&
-					QueryDevice )
+					CreateLinkEffect )
 				{
 					Initialized = true;
 					return TRUE;
