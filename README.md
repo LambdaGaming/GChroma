@@ -15,7 +15,7 @@
  2. Download the GChroma base addon from [here.](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)
  3. Download the latest GChroma binary module from [here.](https://github.com/LambdaGaming/GChroma/releases) Make sure you download the 32-bit version unless you're running the x86-64 branch.
  4. Move the downloaded binary module to `steamapps/common/garrysmod/garrysmod/lua/bin`. You may have to create the bin folder yourself.
- 5. Download GChroma-supported addons from [here](), or start developing your own. Enjoy!
+ 5. Download GChroma-supported addons from [here](https://steamcommunity.com/workshop/filedetails/?id=2297418480), or start developing your own. Enjoy!
 
 &nbsp;
 
@@ -36,7 +36,7 @@
  It works on the x86-64 branch. Other branches haven't been tested.
 
  ## Is animation support planned?
- No, and it probably never will be, but we'll see. The way animations currently work is a bit complex. It would be hard to integrate it without making the code overly complex on the Lua side.
+ No. While it may be possible, it would require rewriting a significant portion of the module. On top of that, animations require special .chroma files to work, which are currently not allowed by the workshop publishing tool.
 
  ## Does this work with 3rd party devices?
  If your RGB software is picked up by Razer Synapse as a device there's a good chance it will work. MSI MysticLight seems to work as long as you turn on Game Sync.
@@ -45,4 +45,4 @@
 
 # Legal
  - All GChroma content made by me, [Source 2 Gman](https://steamcommunity.com/profiles/76561198136556075), AKA [LambdaGaming](https://github.com/LambdaGaming) is licensed under the [MIT license.](https://github.com/LambdaGaming/GChroma/blob/main/LICENSE)
- - RAZER is the registered trademark of Razer Inc. Razer has no affiliation whatsoever with me or my addons.
+ - RAZER is the trademark or registered trademark of Razer Inc. Razer has no affiliation whatsoever with me or my addons.

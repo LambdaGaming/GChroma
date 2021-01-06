@@ -7,14 +7,12 @@
  Before you start developing for GChroma, take note of the following:
  1. Make sure your addon doesn't interfere with other addons. GChroma has no way of knowing what addon is supposed to take priority, so it will always override the current color grid with the one that was called last. If possible, it is recommended you give priority back to whatever addon was using GChroma last after your addon no longer needs that priority.
  2. Avoid running resource-intensive functions in loops, specifically `GChroma_Start()` and `GChroma_CreateEffect()`. Failure to do so may result in the SDK taking a long time to process the changes. Looping timers or cooldowns with a time of at least 0.1 seconds should be used if you plan on rapidly changing colors.
- 3. Avoid using `GChroma_SetDeviceColor()`, `GChroma_SetDeviceColorEx()`, and `GChroma_ResetDevice()` in server-side code whenever possible. The client-side functions are designed to allow developers to change colors across multiple devices while only requiring `GChroma_CreateEffect()` to be called once, which helps immensely with performance. The server-side functions have no way of doing this.
 
 &nbsp;
 
-# GChroma_Start()
- ## Scope
- Client
+# Client Functions
 
+# GChroma_Start()
  ## Description
  Initializes a new GChroma effect. Needs to be called before using any other GChroma function, similar to net.Start().
 
@@ -34,9 +32,6 @@
 &nbsp;
 
 # GChroma_SetDeviceColor( `userdata` instance, `number` device, `vector` color )
- ## Scope
- Shared (For server, add the target player as the first argument. Avoid using server function whenever possible. Client function is more optimized.)
-
  ## Description
  Sets the specified device to a solid color. Individual LEDs cannot be changed with this function.
 
@@ -45,7 +40,7 @@
    
  2. `number` device - Device ID. See enums section below for available devices.
 
- 3. `vector` color - Color to set the device. Must be a vector. Use `GChroma_ToVector()` if you need to convert an existing color table to a vector. DO NOT USE `color:ToVector()`! THINGS WILL BREAK!
+ 3. `vector` color - Color to set the device. Must be a vector. Use `GChroma_ToVector()` if you need to convert an existing color table to a vector. DO NOT USE `color:ToVector()`! ALL COLORS WILL BE EXTREMELY DIM!
 
  ## Example 1
  Sets the color of all available devices to blue.
@@ -73,9 +68,6 @@ end
 &nbsp;
 
 # GChroma_SetDeviceColorEx( `userdata` instance, `number` device, `vector` color, `number` row, `number` col )
- ## Scope
- Shared (For server, add the target player as the first argument. Avoid using server function whenever possible. Client function is more optimized.)
-
  ## Description
  Sets the color of the specified device LED. If you are setting the color for a keyboard or mouse, you can use their respective LED enums and set the col argument to 0. If you are using a different device, see the [Chroma LED Profiles](https://developer.razer.com/works-with-chroma-v1/razer-chroma-led-profiles/) for what row and column you should use. It is recommended you use the "super" variant of each device to ensure compatibility with all devices.
 
@@ -84,7 +76,7 @@ end
 
  2. `number` device - Device ID. See enums section below for available devices. Note that the GCHROMA_DEVICE_ALL enum will NOT work with this function.
 
- 3. `vector` color - Color to set the device. Must be a vector. Use `GChroma_ToVector()` if you need to convert an existing color table to a vector. DO NOT USE `color:ToVector()`! THINGS WILL BREAK!
+ 3. `vector` color - Color to set the device. Must be a vector. Use `GChroma_ToVector()` if you need to convert an existing color table to a vector. DO NOT USE `color:ToVector()`! ALL COLORS WILL BE EXTREMELY DIM!
 
  4. `number` row - Row of the device LED. See the description above for how this argument should be handled.
 
@@ -129,22 +121,18 @@ end
 
 &nbsp;
 
-# GChroma_ResetDevice( `number` device )
- ## Scope
- Shared (For server, add the target player as the first argument. Avoid using server function whenever possible. Client function is more optimized.)
-
+# GChroma_ResetDevice( `userdata` instance, `number` device )
  ## Description
  Resets the colors of the specified device to 0, 0, 0.
 
  ## Arguments
- 1. `number` device - Device ID. See enums section below for available devices.
+ 1. `userdata` instance - Instance of the GChroma effect created with GChroma_Start().
+ 
+ 2. `number` device - Device ID. See enums section below for available devices.
 
 &nbsp;
 
 # GChroma_CreateEffect( `userdata` instance )
- ## Scope
- Client
-
  ## Description
  Creates a new GChroma effect using the effect declared from GChroma_Start and modified with the other GChroma functions.
 
@@ -166,22 +154,7 @@ end
 
 &nbsp;
 
-# GChroma_ToVector( `color` color )
- ## Scope
- Shared
-
- ## Description
- Converts a Lua color table into a vector so that it can be used in the GChroma color functions.
-
- ## Arguments
- 1. `color` color - Color table to be converted.
-
-&nbsp;
-
 # GChroma_KeyConvert( `number` key )
- ## Scope
- Client
-
  ## Description
  Converts a Garry's Mod key into a GChroma key. May not work for every key. Intended to be used only for letter keys.
 
@@ -193,6 +166,87 @@ end
  ``` lua
 GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 0, 255, 0 ), GChroma_KeyConvert( input.GetKeyCode( input.LookupBinding( "voicerecord" ) ) ), 0 )
  ```
+
+&nbsp;
+
+# Server Functions
+
+# GChroma_SetDeviceColor( `number` device, `vector` color )
+ ## Description
+ Used along with `GChroma_SendFunctions()` to send GChroma functions from the server. See `GChroma_SendFunctions()` section for examples.
+
+ ## Arguments
+ 1. `number` device - Device ID. See enums section below for available devices.
+
+ 2. `vector` color - Color to set the device. Must be a vector. Use `GChroma_ToVector()` if you need to convert an existing color table to a vector. DO NOT USE `color:ToVector()`! ALL COLORS WILL BE EXTREMELY DIM!
+
+&nbsp;
+
+# GChroma_SetDeviceColorEx( `number` device, `vector` color, `number` row, `number` col )
+ ## Description
+ Used along with `GChroma_SendFunctions()` to send GChroma functions from the server. See `GChroma_SendFunctions()` section for examples.
+
+ ## Arguments
+ 1. `number` device - Device ID. See enums section below for available devices. Note that the GCHROMA_DEVICE_ALL enum will NOT work with this function.
+
+ 2. `vector` color - Color to set the device. Must be a vector. Use `GChroma_ToVector()` if you need to convert an existing color table to a vector. DO NOT USE `color:ToVector()`! ALL COLORS WILL BE EXTREMELY DIM!
+
+ 3. `number` row - Row of the device LED. See the description above for how this argument should be handled.
+
+ 4. `number` col - Column of the device LED. See the description above for how this argument should be handled.
+
+&nbsp;
+
+# GChroma_ResetDevice( `number` device )
+ ## Description
+ Used along with `GChroma_SendFunctions()` to send GChroma functions from the server. See `GChroma_SendFunctions()` section for examples.
+
+ ## Arguments
+ 1. `number` device - Device ID. See enums section below for available devices.
+
+&nbsp;
+
+# GChroma_SendFunctions( `player` ply, `table` tbl )
+ ## Description
+ Sends a table of functions to a client. This function allows you to use server-side code as much as client-side code without the huge performance loss.
+
+ ## Arguments
+ 1. `player` ply - Player who will receive the functions
+
+ 2. `table` tbl - Table of functions for the player to receive
+
+## Example 1
+ Sets the color of all available devices to blue.
+ ``` lua
+for k,v in ipairs( player.GetAll() ) do --This sends the message to all players for the example, but generally you should avoid doing this since the majority of players likely won't be able to use it
+	local tbl = { GChroma_SetDeviceColor( GCHROMA_DEVICE_ALL, Vector( 0, 0, 255 ) ) } --You can also use table.insert()
+	GChroma_SendFunctions( v, tbl )
+end
+ ```
+
+## Example 2
+ Resets all devices and sets the W key to red and S key to green.
+``` lua
+function ENT:Use( activator, caller )
+	local tbl = {
+		GChroma_ResetDevice( GCHROMA_DEVICE_ALL )
+		GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, GCHROMA_COLOR_RED, GCHROMA_KEY_W, 0 ),
+		GChroma_SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, GCHROMA_COLOR_GREEN, GCHROMA_KEY_S, 0 )
+	}
+	GChroma_SendFunctions( activator, tbl )
+end
+```
+
+&nbsp;
+
+# Shared Functions
+
+# GChroma_ToVector( `color` color )
+ ## Description
+ Converts a Lua color table into a vector so that it can be used in the GChroma color functions.
+
+ ## Arguments
+ 1. `color` color - Color table to be converted.
 
 &nbsp;
 
