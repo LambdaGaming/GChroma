@@ -5,11 +5,6 @@
 
 &nbsp;
 
-# Note
- This module is still in early development, so expect bugs, crashes, performance issues, all that jazz.
-
-&nbsp;
-
 # Installing
  1. Make sure you have Razer Synapse 3 installed and running with the Chroma Connect module installed as well, and obviously make sure you have a device that supports Razer Synapse 3. (Legacy Synapse versions might work but are unsupported by me.)
  2. Download the GChroma base addon from [here.](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)
