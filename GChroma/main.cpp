@@ -6,236 +6,145 @@
 using namespace GarrysMod::Lua;
 using namespace std;
 
-/*
-	GChroma_Start()
-	Arguments: None
-	Returns:
-		UserData instance - Instance of the GChroma class created by the function
-	Example: local chroma = GChroma_Start()
-*/
-LUA_FUNCTION( GChroma_Start )
+GChroma* instance;
+int GChromaTable;
+
+void GChromaInit()
 {
-	GChroma* instance;
 	instance = new GChroma();
-	auto init = instance->Initialize();
-	LUA->PushUserType_Value( instance, Type::UserData );
-	return 1;
+	instance->Initialize();
 }
 
 /*
-	GChroma_SetDeviceColor( UserData instance, Number device, Vector color )
+	gchroma.SetDeviceColor( Number device, Vector color )
 	Arguments:
-		instance - Instance of the GChroma class you want to use this function with, created with GChroma_Start()
 		device - Device ID
 		color - Lua RGB color table converted to a vector
 	Returns: None
-	Example: GChroma_SetDeviceColor( instance, GCHROMA_DEVICE_ALL, Vector( 0, 0, 255 ) )
+	Example: gchroma.SetDeviceColor( GCHROMA_DEVICE_ALL, Vector( 0, 0, 255 ) )
 */
 LUA_FUNCTION( GChroma_SetDeviceColor )
 {
-	LUA->CheckType( 1, Type::UserData );
-	LUA->CheckType( 2, Type::Number );
-	LUA->CheckType( 3, Type::Vector );
-	GChroma* instance = LUA->GetUserType<GChroma>( 1, Type::UserData );
-	int device = LUA->GetNumber( 2 );
-	Vector color = LUA->GetVector( 3 );
+	LUA->CheckType( 1, Type::Number );
+	LUA->CheckType( 2, Type::Vector );
+	int device = LUA->GetNumber( 1 );
+	const auto& color = LUA->GetVector( 2 );
 
 	if ( instance->Initialized )
 	{
 		COLORREF convert = RGB( color.x, color.y, color.z );
 
-		switch ( device )
+		try
 		{
-			case 0:
-				try
-				{
+			switch ( device )
+			{
+				case 0:
 					instance->SetMouseColor( convert );
 					instance->SetKeyboardColor( convert );
 					instance->SetMousepadColor( convert );
 					instance->SetKeypadColor( convert );
 					instance->SetHeadsetColor( convert );
 					instance->SetLinkColor( convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 1:
-				try
-				{
+					break;
+				case 1:
 					instance->SetKeyboardColor( convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 2:
-				try
-				{
+					break;
+				case 2:
 					instance->SetMousepadColor( convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 3:
-				try
-				{
+					break;
+				case 3:
 					instance->SetMouseColor( convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 4:
-				try
-				{
+					break;
+				case 4:
 					instance->SetHeadsetColor( convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 5:
-				try
-				{
+					break;
+				case 5:
 					instance->SetKeypadColor( convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 6:
-				try
-				{
+					break;
+				case 6:
 					instance->SetLinkColor( convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			default: break; // Don't do anything if a valid device wasn't input
+					break;
+				default: break; // Don't do anything if a valid device wasn't input
+			}
+		}
+		catch ( exception e )
+		{
+			LUA->ThrowError( e.what() );
 		}
 	}
 	return 0;
 }
 
 /*
-	GChroma_SetMouseColorEx( UserData instance, Number device, Vector color, Number row, Number col )
+	gchroma.SetMouseColorEx( Number device, Vector color, Number row, Number col )
 	Arguments:
-		instance - Instance of the GChroma class you want to use this function with, created with GChroma_Start()
 		device - Device ID
 		color - Lua RGB color table converted to a vector
 		row - LED profile row (https://developer.razer.com/works-with-chroma-v1/razer-chroma-led-profiles/)
 		col - LED profile column
 	Returns: None
-	Example 1: GChroma_SetDeviceColorEx( instance, GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), GCHROMA_MOUSE_SCROLLWHEEL, 0 ) --Sets the scroll wheel color to blue
-	Example 2: GChroma_SetDeviceColorEx( instance, GCHROMA_DEVICE_KEYBOARD, Vector( 255, 0, 0 ), GCHROMA_KEY_W, 0 ) --Sets the W key color to red
-	Example 3: GChroma_SetDeviceColorEx( instance, GCHROMA_DEVICE_MOUSEPAD, Vector( 0, 255, 0 ), 0, 0 ) --Sets the top left corner of the mousepad to green
+	Example 1: gchroma.SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), GCHROMA_MOUSE_SCROLLWHEEL, 0 ) --Sets the scroll wheel color to blue
+	Example 2: gchroma.SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 255, 0, 0 ), GCHROMA_KEY_W, 0 ) --Sets the W key color to red
+	Example 3: gchroma.SetDeviceColorEx( GCHROMA_DEVICE_MOUSEPAD, Vector( 0, 255, 0 ), 0, 0 ) --Sets the top left corner of the mousepad to green
 */
 LUA_FUNCTION( GChroma_SetDeviceColorEx )
 {
-	LUA->CheckType( 1, Type::UserData );
-	LUA->CheckType( 2, Type::Number );
-	LUA->CheckType( 3, Type::Vector );
+	LUA->CheckType( 1, Type::Number );
+	LUA->CheckType( 2, Type::Vector );
+	LUA->CheckType( 3, Type::Number );
 	LUA->CheckType( 4, Type::Number );
-	LUA->CheckType( 5, Type::Number );
-	GChroma* instance = LUA->GetUserType<GChroma>( 1, Type::UserData );
-	int device = LUA->GetNumber( 2 );
-	Vector color = LUA->GetVector( 3 );
-	double row = LUA->GetNumber( 4 );
-	double col = LUA->GetNumber( 5 );
+	int device = LUA->GetNumber( 1 );
+	const auto& color = LUA->GetVector( 2 );
+	auto row = LUA->GetNumber( 3 );
+	auto col = LUA->GetNumber( 4 );
 	if ( instance->Initialized )
 	{
 		COLORREF convert = RGB( color.x, color.y, color.z );
 
-		switch ( device )
+		try
 		{
-			case 1:
-				try
-				{
+			switch ( device )
+			{
+				case 1:
 					instance->SetKeyboardColorEx( row, convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 2:
-				try
-				{
+					break;
+				case 2:
 					instance->SetMousepadColorEx( convert, row );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 3:
-				try
-				{
+					break;
+				case 3:
 					instance->SetMouseColorEx( row, convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 4:
-				try
-				{
+					break;
+				case 4:
 					instance->SetHeadsetColorEx( convert, row );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 5:
-				try
-				{
+					break;
+				case 5:
 					instance->SetKeypadColorEx( convert, row, col );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			case 6:
-				try
-				{
+					break;
+				case 6:
 					instance->SetLinkColor( convert );
-				}
-				catch ( exception e )
-				{
-					LUA->ThrowError( e.what() );
-				}
-				break;
-			default: break;
+					break;
+				default: break;
+			}
 		}
+		catch ( exception e )
+		{
+			LUA->ThrowError( e.what() );
+		}
+		
 	}
 	return 0;
 }
 
 /*
-	GChroma_ResetDevice( Number device )
+	gchroma.ResetDevice( Number device )
 	Arguments:
 		device - Device ID
 	Returns: None
 */
 LUA_FUNCTION( GChroma_ResetDevice )
 {
-	LUA->CheckType( 1, Type::UserData );
-	LUA->CheckType( 2, Type::Number );
-	GChroma* instance = LUA->GetUserType<GChroma>( 1, Type::UserData );;
-	int device = LUA->GetNumber( 2 );
+	LUA->CheckType( 1, Type::Number );
+	int device = LUA->GetNumber( 1 );
 	if ( instance->Initialized )
 	{
 		if ( device >= 0 && device <= 5 )
@@ -251,18 +160,14 @@ LUA_FUNCTION( GChroma_ResetDevice )
 }
 
 /*
-	GChroma_CreateEffect( UserData instance, Bool key )
+	gchroma.CreateEffect( Bool key )
 	Arguments:
-		instance - Instance of the GChroma class you want to use this function with, created with GChroma_Start()
 		key - Optional. Set to true if your effect edits keyboard keys with enums.
 	Returns: None
-	Example: GChroma_CreateEffect( chroma )
+	Example: gchroma.CreateEffect( true )
 */
 LUA_FUNCTION( GChroma_CreateEffect )
 {
-	LUA->CheckType( 1, Type::UserData );
-	GChroma* instance = LUA->GetUserType<GChroma>( 1, Type::UserData );
-
 	try
 	{
 		instance->PushColors();
@@ -276,17 +181,18 @@ LUA_FUNCTION( GChroma_CreateEffect )
 
 GMOD_MODULE_OPEN()
 {
+	GChromaInit();
 	LUA->PushSpecial( SPECIAL_GLOB );
-		LUA->PushCFunction( GChroma_Start );
-		LUA->SetField( -2, "GChroma_Start" );
-		LUA->PushCFunction( GChroma_SetDeviceColor );
-		LUA->SetField( -2, "GChroma_SetDeviceColor" );
-		LUA->PushCFunction( GChroma_SetDeviceColorEx );
-		LUA->SetField( -2, "GChroma_SetDeviceColorEx" );
-		LUA->PushCFunction( GChroma_ResetDevice );
-		LUA->SetField( -2, "GChroma_ResetDevice" );
-		LUA->PushCFunction( GChroma_CreateEffect );
-		LUA->SetField( -2, "GChroma_CreateEffect" );
+		LUA->CreateTable();
+			LUA->PushCFunction( GChroma_SetDeviceColor );
+			LUA->SetField( -2, "SetDeviceColor" );
+			LUA->PushCFunction( GChroma_SetDeviceColorEx );
+			LUA->SetField( -2, "SetDeviceColorEx" );
+			LUA->PushCFunction( GChroma_ResetDevice );
+			LUA->SetField( -2, "ResetDevice" );
+			LUA->PushCFunction( GChroma_CreateEffect );
+			LUA->SetField( -2, "CreateEffect" );
+		LUA->SetField( -2, "gchroma" );
 	LUA->Pop();
 	return 0;
 }
