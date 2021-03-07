@@ -24,7 +24,7 @@
  ## Example 1
  Sets the color of all available devices to blue.
  ``` lua
-if gchroma.Loaded then --If your addon isn't exclusively made for GChroma, add this check to avoid errors
+if gchroma then --If your addon isn't exclusively made for GChroma, add this check to avoid errors
 	gchroma.SetDeviceColor( GCHROMA_DEVICE_ALL, Vector( 0, 0, 255 ) )
 	gchroma.CreateEffect()
 end
@@ -35,7 +35,7 @@ end
  ``` lua
 --Assume this function is in a shared file
 function ENT:Use( activator, caller )
-	if CLIENT and gchroma.Loaded then
+	if CLIENT and gchroma then
 		gchroma.SetDeviceColor( gchroma, GCHROMA_DEVICE_ALL, GChroma_ToVector( self:GetColor() ) )
 		gchroma.CreateEffect( gchroma )
 	end
@@ -60,13 +60,13 @@ end
  ## Example 1
  Sets the mouse scroll wheel color to blue.
  ``` lua
-if gchroma.Loaded then
+if gchroma then
 	gchroma.SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), GCHROMA_MOUSE_SCROLLWHEEL, 0 )
 	gchroma.CreateEffect()
 end
 
 --This does the same thing as above, but uses the grid system instead of enums
-if gchroma.Loaded then
+if gchroma then
 	gchroma.SetDeviceColorEx( GCHROMA_DEVICE_MOUSE, Vector( 0, 0, 255 ), 2, 3 )
 	gchroma.CreateEffect()
 end
@@ -75,7 +75,7 @@ end
  ## Example 2
  Sets the W key on the keyboard to red.
  ``` lua
-if gchroma.Loaded then
+if gchroma then
 	gchroma.SetDeviceColorEx( GCHROMA_DEVICE_KEYBOARD, Vector( 255, 0, 0 ), GCHROMA_KEY_W, 0 )
 	gchroma.CreateEffect()
 end
@@ -84,7 +84,7 @@ end
  ## Example 3
  Sets the top left corner of the mousepad to green.
  ``` lua
-if gchroma.Loaded then
+if gchroma then
 	gchroma.SetDeviceColorEx( GCHROMA_DEVICE_MOUSEPAD, Vector( 0, 255, 0 ), 0, 0 )
 	gchroma.CreateEffect()
 end
@@ -108,7 +108,7 @@ end
  ## Example 1
  Sets all 4 corners of the mouse pad to green.
  ``` lua
- if gchroma.Loaded then
+ if gchroma then
 	local grid = { 0, 4, 10, 14 }
 	for k,v in pairs( grid ) do
 	    gchroma.SetDeviceColorEx( GCHROMA_DEVICE_MOUSEPAD, GCHROMA_COLOR_GREEN, v, 0 )
