@@ -28,10 +28,10 @@
  Currently, no. This is partly due to Razer Synapse only natively supporting Windows.
 
  ## Does this work on beta branches of the game?
- It works on the x86-64 branch. Other branches haven't been tested.
+ It works on the x86-64 branch. Other branches haven't been tested but they will probably work as well.
 
  ## Is animation support planned?
- No. While it may be possible, it would require rewriting a significant portion of the module. On top of that, animations require special .chroma files to work, which are currently not allowed by the workshop publishing tool.
+ Not currently. A significant portion of the module will need rewritten to efficiently support animations, and right now the addon isn't popular enough for me to justify doing that.
 
  ## Does this work with 3rd party devices?
  If your RGB software is picked up by Razer Synapse as a device there's a good chance it will work. MSI MysticLight seems to work as long as you turn on Game Sync.
