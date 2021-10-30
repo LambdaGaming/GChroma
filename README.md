@@ -10,7 +10,7 @@
  2. Download the GChroma base addon from [here.](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)
  3. Download the latest GChroma binary module from [here.](https://github.com/LambdaGaming/GChroma/releases) Make sure you download the 32-bit version unless you're running the x86-64 branch.
  4. Move the downloaded binary module to `steamapps/common/garrysmod/garrysmod/lua/bin`. You may have to create the bin folder yourself.
- 5. Download GChroma-supported addons from [here](https://steamcommunity.com/workshop/filedetails/?id=2297418480), or start developing your own. Enjoy!
+ 5. Download GChroma-supported addons or start developing your own. Enjoy!
 
 &nbsp;
 
