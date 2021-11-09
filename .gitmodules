@@ -1,4 +1,0 @@
-[submodule "gmod-module-base"]
-	path = gmod-module-base
-	url = https://github.com/Facepunch/gmod-module-base
-	branch = development

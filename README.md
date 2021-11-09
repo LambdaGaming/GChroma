@@ -1,7 +1,7 @@
 ![GChroma Logo](logo.png)
 
 # About
- GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows 32-bit and 64-bit. The Lua documentation can be found [here](https://github.com/LambdaGaming/GChroma/blob/main/doc.md) and some examples can be found [here](https://github.com/LambdaGaming/GChroma_Player_Module) and [here.](https://github.com/LambdaGaming/GChroma_Lua_Base)
+ GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows x86 and Windows x64. The Lua documentation can be found [here](https://github.com/LambdaGaming/GChroma/blob/main/doc.md) and some examples can be found [here](https://github.com/LambdaGaming/GChroma_Player_Module) and [here.](https://github.com/LambdaGaming/GChroma_Lua_Base)
 
 &nbsp;
 
@@ -16,7 +16,7 @@
 
 # Contributing/Compiling
 - If you want to contribute, please read the [contributing guidelines](https://lambdagaming.github.io/contributing.html) before making a pull request.
-- The project files for Visual Studio 2019 are included. The Gmod module headers are included as a submodule. The Razer Chroma SDK headers are also required and should automatically download with [Razer Synapse](https://www.razer.com/synapse-3).
+- The project files for Visual Studio 2019 are included. You will need to download and add the [Garry's Mod binary module headers](https://github.com/Facepunch/gmod-module-base/tree/development) as well as add the Razer Chroma SDK headers, which should automatically download with [Razer Synapse](https://www.razer.com/synapse-3).
 
 &nbsp;
 
