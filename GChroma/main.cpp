@@ -4,15 +4,14 @@
 #include "chroma.h"
 
 using namespace GarrysMod::Lua;
-using namespace std;
 
-GChroma* instance;
+GChroma *Chroma;
 int GChromaTable;
 
 void GChromaInit()
 {
-	instance = new GChroma();
-	instance->Initialize();
+	Chroma = new GChroma();
+	Chroma->Initialize();
 }
 
 /*
@@ -28,46 +27,45 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 	LUA->CheckType( 1, Type::Number );
 	LUA->CheckType( 2, Type::Vector );
 	int device = LUA->GetNumber( 1 );
-	const auto& color = LUA->GetVector( 2 );
+	Vector color = LUA->GetVector( 2 );
 
-	if ( instance->Initialized )
+	if ( Chroma->Initialized )
 	{
 		COLORREF convert = RGB( color.x, color.y, color.z );
-
 		try
 		{
 			switch ( device )
 			{
 				case 0:
-					instance->SetMouseColor( convert );
-					instance->SetKeyboardColor( convert );
-					instance->SetMousepadColor( convert );
-					instance->SetKeypadColor( convert );
-					instance->SetHeadsetColor( convert );
-					instance->SetLinkColor( convert );
+					Chroma->SetMouseColor( convert );
+					Chroma->SetKeyboardColor( convert );
+					Chroma->SetMousepadColor( convert );
+					Chroma->SetKeypadColor( convert );
+					Chroma->SetHeadsetColor( convert );
+					Chroma->SetLinkColor( convert );
 					break;
 				case 1:
-					instance->SetKeyboardColor( convert );
+					Chroma->SetKeyboardColor( convert );
 					break;
 				case 2:
-					instance->SetMousepadColor( convert );
+					Chroma->SetMousepadColor( convert );
 					break;
 				case 3:
-					instance->SetMouseColor( convert );
+					Chroma->SetMouseColor( convert );
 					break;
 				case 4:
-					instance->SetHeadsetColor( convert );
+					Chroma->SetHeadsetColor( convert );
 					break;
 				case 5:
-					instance->SetKeypadColor( convert );
+					Chroma->SetKeypadColor( convert );
 					break;
 				case 6:
-					instance->SetLinkColor( convert );
+					Chroma->SetLinkColor( convert );
 					break;
 				default: break; // Don't do anything if a valid device wasn't input
 			}
 		}
-		catch ( exception e )
+		catch ( std::exception e )
 		{
 			LUA->ThrowError( e.what() );
 		}
@@ -94,43 +92,41 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 	LUA->CheckType( 3, Type::Number );
 	LUA->CheckType( 4, Type::Number );
 	int device = LUA->GetNumber( 1 );
-	const auto& color = LUA->GetVector( 2 );
-	auto row = LUA->GetNumber( 3 );
-	auto col = LUA->GetNumber( 4 );
-	if ( instance->Initialized )
+	Vector color = LUA->GetVector( 2 );
+	double row = LUA->GetNumber( 3 );
+	double col = LUA->GetNumber( 4 );
+	if ( Chroma->Initialized )
 	{
 		COLORREF convert = RGB( color.x, color.y, color.z );
-
 		try
 		{
 			switch ( device )
 			{
 				case 1:
-					instance->SetKeyboardColorEx( row, convert );
+					Chroma->SetKeyboardColorEx( row, convert );
 					break;
 				case 2:
-					instance->SetMousepadColorEx( convert, row );
+					Chroma->SetMousepadColorEx( convert, row );
 					break;
 				case 3:
-					instance->SetMouseColorEx( row, convert );
+					Chroma->SetMouseColorEx( row, convert );
 					break;
 				case 4:
-					instance->SetHeadsetColorEx( convert, row );
+					Chroma->SetHeadsetColorEx( convert, row );
 					break;
 				case 5:
-					instance->SetKeypadColorEx( convert, row, col );
+					Chroma->SetKeypadColorEx( convert, row, col );
 					break;
 				case 6:
-					instance->SetLinkColor( convert );
+					Chroma->SetLinkColor( convert );
 					break;
 				default: break;
 			}
 		}
-		catch ( exception e )
+		catch ( std::exception e )
 		{
 			LUA->ThrowError( e.what() );
 		}
-		
 	}
 	return 0;
 }
@@ -145,11 +141,11 @@ LUA_FUNCTION( GChroma_ResetDevice )
 {
 	LUA->CheckType( 1, Type::Number );
 	int device = LUA->GetNumber( 1 );
-	if ( instance->Initialized )
+	if ( Chroma->Initialized )
 	{
 		if ( device >= 0 && device <= 5 )
 		{
-			instance->ResetEffects( device );
+			Chroma->ResetEffects( device );
 		}
 		else
 		{
@@ -170,7 +166,7 @@ LUA_FUNCTION( GChroma_CreateEffect )
 {
 	try
 	{
-		instance->PushColors();
+		Chroma->PushColors();
 	}
 	catch ( std::exception e )
 	{
