@@ -6,7 +6,6 @@
 using namespace GarrysMod::Lua;
 
 GChroma *Chroma;
-int GChromaTable;
 
 void GChromaInit()
 {
@@ -195,5 +194,16 @@ GMOD_MODULE_OPEN()
 
 GMOD_MODULE_CLOSE()
 {
+	// Turn all devices gray and delete GChroma instance
+	COLORREF gray = RGB( 25, 25, 25 );
+	Chroma->ResetEffects( 0 );
+	Chroma->SetMouseColor( gray );
+	Chroma->SetKeyboardColor( gray );
+	Chroma->SetMousepadColor( gray );
+	Chroma->SetKeypadColor( gray );
+	Chroma->SetHeadsetColor( gray );
+	Chroma->SetLinkColor( gray );
+	Chroma->PushColors();
+	delete Chroma;
 	return 0;
 }
