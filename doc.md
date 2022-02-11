@@ -177,5 +177,47 @@ end
 
 &nbsp;
 
+# Hooks
+ All hooks are client-side only and return the values of the functions associated with them.
+
+ ## GChromaInitialized
+  ### Description
+  Gets called when the module is first loaded. Does not get called if the module fails to load.
+
+  &nbsp;
+
+ ## GChromaInitializationFailure
+  ### Description
+  Gets called when the module fails to load.
+
+  &nbsp;
+
+ ## GChromaColorSet
+  ### Description
+  Gets called when a color is set.
+
+  ### Arguments
+  1. `number` device - Type of device that had its color changed
+  2. `vector` color - Color that was set as a vector
+  3. `[number]` row - Row of the color grid, only available when using `SetDeviceColorEx`
+  4. `[number]` col - Column of the color grid, only available when using `SetDeviceColorEx`
+
+  &nbsp;
+
+ ## GChromaDeviceReset
+  ### Description
+  Gets called when a device's color gets reset.
+
+  ### Arguments
+  1. `number` device - Type of device that had its color changed
+
+  &nbsp;
+
+ ## GChromaCreateEffect
+  ### Description
+  Gets called when an effect is created.
+
+&nbsp;
+
 # Enums
  See [gchroma_enums.lua](https://github.com/LambdaGaming/GChroma_Lua_Base/blob/main/lua/autorun/gchroma_enums.lua)

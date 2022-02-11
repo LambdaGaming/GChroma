@@ -63,6 +63,15 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 					break;
 				default: break; // Don't do anything if a valid device wasn't input
 			}
+
+			LUA->PushSpecial( SPECIAL_GLOB );
+				LUA->GetField( -1, "hook" );
+				LUA->GetField( -1, "Run" );
+				LUA->PushString( "GChromaColorSet" );
+				LUA->PushNumber( device );
+				LUA->PushVector( color );
+				LUA->Call( 3, 0 );
+			LUA->Pop( 2 );
 		}
 		catch ( std::exception e )
 		{
@@ -73,7 +82,7 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 }
 
 /*
-	gchroma.SetMouseColorEx( Number device, Vector color, Number row, Number col )
+	gchroma.SetDeviceColorEx( Number device, Vector color, Number row, Number col )
 	Arguments:
 		device - Device ID
 		color - Lua RGB color table converted to a vector
@@ -121,6 +130,17 @@ LUA_FUNCTION( GChroma_SetDeviceColorEx )
 					break;
 				default: break;
 			}
+
+			LUA->PushSpecial( SPECIAL_GLOB );
+				LUA->GetField( -1, "hook" );
+				LUA->GetField( -1, "Run" );
+				LUA->PushString( "GChromaColorSet" );
+				LUA->PushNumber( device );
+				LUA->PushVector( color );
+				LUA->PushNumber( row );
+				LUA->PushNumber( col );
+				LUA->Call( 5, 0 );
+			LUA->Pop( 2 );
 		}
 		catch ( std::exception e )
 		{
@@ -145,6 +165,13 @@ LUA_FUNCTION( GChroma_ResetDevice )
 		if ( device >= 0 && device <= 5 )
 		{
 			Chroma->ResetEffects( device );
+			LUA->PushSpecial( SPECIAL_GLOB );
+				LUA->GetField( -1, "hook" );
+				LUA->GetField( -1, "Run" );
+				LUA->PushString( "GChromaDeviceReset" );
+				LUA->PushNumber( device );
+				LUA->Call( 2, 0 );
+			LUA->Pop( 2 );
 		}
 		else
 		{
@@ -166,6 +193,12 @@ LUA_FUNCTION( GChroma_CreateEffect )
 	try
 	{
 		Chroma->PushColors();
+		LUA->PushSpecial( SPECIAL_GLOB );
+			LUA->GetField( -1, "hook" );
+			LUA->GetField( -1, "Run" );
+			LUA->PushString( "GChromaCreateEffect" );
+			LUA->Call( 1, 0 );
+		LUA->Pop( 2 );
 	}
 	catch ( std::exception e )
 	{
