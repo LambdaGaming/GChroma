@@ -1,46 +1,40 @@
 ![GChroma Logo](logo.png)
 
 # About
- GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows x86 and Windows x64. The Lua documentation can be found [here](https://github.com/LambdaGaming/GChroma/blob/main/doc.md) and some examples can be found [here](https://github.com/LambdaGaming/GChroma_Player_Module) and [here.](https://github.com/LambdaGaming/GChroma_Lua_Base)
-
-&nbsp;
+ GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows 10/11, and supports x86 and x64 architectures.  
+ [API documentation](https://github.com/LambdaGaming/GChroma/blob/main/doc.md)  
+ [GChroma Lua Base](https://github.com/LambdaGaming/GChroma_Lua_Base)  
+ [GChroma Sandbox Module](https://github.com/LambdaGaming/GChroma_Sandbox_Module)
 
 # Installing
- 1. Make sure you have Razer Synapse 3 installed and running with the Chroma Connect module installed as well, and obviously make sure you have a device that supports Razer Synapse 3. (Legacy Synapse versions might work but are unsupported by me.)
- 2. Download the GChroma base addon from [here.](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)
- 3. Download the latest GChroma binary module from [here.](https://github.com/LambdaGaming/GChroma/releases) Make sure you download the 32-bit version unless you're running the x86-64 branch.
+ 1. Make sure you have Razer Synapse 3 installed and running with the Chroma Connect module installed as well, and obviously make sure you're using a device that's supported by Razer Synapse 3. (Older Synapse versions are unsupported and will likely not work.)
+ 2. Download the [GChroma base addon.](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)
+ 3. Download the latest [GChroma binary module.](https://github.com/LambdaGaming/GChroma/releases) Make sure you download the 32-bit version unless you're using the x86-64 beta branch.
  4. Move the downloaded binary module to `[Steam directory]/garrysmod/garrysmod/lua/bin`. You might have to create the bin folder since it doesn't exist by default.
  5. Download GChroma-supported addons or start developing your own. Enjoy!
 
-&nbsp;
-
-# Contributing/Compiling
-- If you want to contribute, please read the [contributing guidelines](https://lambdagaming.github.io/contributing.html) before making a pull request.
-- The project files for Visual Studio 2019 are included. You will need to download and add the [Garry's Mod binary module headers](https://github.com/Facepunch/gmod-module-base/tree/development) as well as add the Razer Chroma SDK headers, which should automatically download with [Razer Synapse](https://www.razer.com/synapse-3).
-
-&nbsp;
+# Contributing
+- If you want to contribute by making an issue or pull request, please read the [contributing guidelines](https://lambdagaming.github.io/contributing.html) first.
+- The project files for Visual Studio are included. The required header files are linked in this repo as submodules.
 
 # FAQs
- ## Does this work on servers?
- Yes, but the server needs to at least have the base addon for it to work on your end.
+ ### Does this work on servers?
+ Yes, but the server needs the Lua base for it to work on your end. Servers do not need the binary module.
 
- ## Is support for Linux/Mac planned?
- Currently, no. This is partly due to Razer Synapse only natively supporting Windows.
+ ### Is support for Linux/Mac planned?
+ No. Razer Synapse only supports Windows, and there are currently no plans to support other RGB software.
 
- ## Does this work on beta branches of the game?
+ ### Does this work on beta branches of the game?
  It works on the x86-64 branch. Other branches haven't been tested but they will probably work as well.
 
- ## Is animation support planned?
- Not currently. A significant portion of the module will need rewritten to efficiently support animations, and right now the addon isn't popular enough for me to justify doing that.
+ ### Is animation support planned?
+ Eventually, yes.
 
- ## Does this work with 3rd party devices?
- If your RGB software is picked up by Razer Synapse as a device there's a good chance it will work. For example, MSI MysticLight works as long as the Game Sync setting is turned on.
+ ### Does this work with 3rd party devices?
+ If your RGB software is detected by Razer Synapse as a device, there's a good chance it will work. For example, MSI MysticLight works as long as the Game Sync setting is turned on.
 
- ## Does this work with non-English keyboards?
+ ### Does this work with non-English keyboards?
  Probably, but I can't guarantee individual keys will light up properly since both the GChroma API and the Razer Synapse SDK use English letters.
 
-&nbsp;
-
 # Legal
- - All GChroma content made by me, [Source 2 Gman](https://steamcommunity.com/profiles/76561198136556075), AKA [LambdaGaming](https://github.com/LambdaGaming) is licensed under the [MIT license.](https://github.com/LambdaGaming/GChroma/blob/main/LICENSE)
  - RAZER is the trademark or registered trademark of Razer Inc. GChroma is not affiliated in any way with Razer.
