@@ -26,8 +26,5 @@
     <ClInclude Include="chroma.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,5 +1,14 @@
 #pragma once
-#include "include.h"
+
+#include <iostream>
+#include <tchar.h>
+#include <assert.h>
+#include <wtypes.h>
+
+#include "RzChromaSDKDefines.h"
+#include "RzChromaSDKTypes.h"
+#include "RzErrors.h"
+
 #ifndef _CHROMASDKIMPL_H_
 	#define _CHROMASDKIMPL_H_
 	#pragma once

@@ -1,4 +1,3 @@
-
 #include "chroma.h"
 
 #ifdef _WIN64
