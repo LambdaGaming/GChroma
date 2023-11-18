@@ -21,17 +21,15 @@
  ### Does this work on servers?
  Yes, but the server needs the Lua base for it to work on your end. Servers do not need the binary module.
 
- ### Is support for Linux/Mac planned?
- No. Razer Synapse only supports Windows, and there are currently no plans to support other RGB software.
+ ### Are there plans to support other operating systems or RGB apps?
+ There are no plans to support Linux or Mac. It's not worth the effort since most people with RGB peripherals are running Windows, and Razer Synapse only officially supports Windows anyway.  
+ Other apps may be supported if they are detected as a device by Razer Synapse. At some point I may add support for Windows 11's new dynamic lighting system. I'm currently waiting to see how popular it gets and how easy it is to develop for. Ideally, it would allow GChroma to support a wide range of devices with minimal effort, but we'll see if that ends up being the case.
 
  ### Does this work on beta branches of the game?
  It works on the x86-64 branch. Other branches haven't been tested but they will probably work as well.
 
  ### Is animation support planned?
  Eventually, yes.
-
- ### Does this work with 3rd party devices?
- If your RGB software is detected by Razer Synapse as a device, there's a good chance it will work. For example, MSI MysticLight works as long as the Game Sync setting is turned on.
 
  ### Does this work with non-English keyboards?
  Probably, but I can't guarantee individual keys will light up properly since both the GChroma API and the Razer Synapse SDK use English letters.
