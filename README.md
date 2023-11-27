@@ -3,8 +3,8 @@
 # About
  GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows 10/11, and supports x86 and x64 architectures.  
  [API documentation](https://github.com/LambdaGaming/GChroma/blob/main/doc.md)  
- [GChroma Lua Base](https://github.com/LambdaGaming/GChroma_Lua_Base)  
- [GChroma Sandbox Module](https://github.com/LambdaGaming/GChroma_Sandbox_Module)
+ [GChroma Lua Base](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)  
+ [GChroma Sandbox Module](https://steamcommunity.com/sharedfiles/filedetails/?id=2297434661)
 
 # Installing
  1. Make sure you have Razer Synapse 3 installed and running with the Chroma Connect module installed as well, and obviously make sure you're using a device that's supported by Razer Synapse 3. (Older Synapse versions are unsupported and will likely not work.)

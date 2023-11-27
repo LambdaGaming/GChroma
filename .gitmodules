@@ -1,7 +1,7 @@
-[submodule "gmod-module-base"]
-	path = gmod-module-base
+[submodule "module/CChromaEditor"]
+	path = module/CChromaEditor
+	url = https://github.com/razerofficial/CChromaEditor
+[submodule "module/gmod-module-base"]
+	path = module/gmod-module-base
 	url = https://github.com/Facepunch/gmod-module-base
 	branch = development
-[submodule "CSDK_SampleApp"]
-	path = CSDK_SampleApp
-	url = https://github.com/razerofficial/CSDK_SampleApp
