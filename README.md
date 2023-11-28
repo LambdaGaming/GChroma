@@ -23,7 +23,7 @@
 
  ### Are there plans to support other operating systems or RGB apps?
  There are no plans to support Linux or Mac. It's not worth the effort since most people with RGB peripherals are running Windows, and Razer Synapse only officially supports Windows anyway.  
- Other apps may be supported if they are detected as a device by Razer Synapse. At some point I may add support for Windows 11's new dynamic lighting system. I'm currently waiting to see how popular it gets and how easy it is to develop for. Ideally, it would allow GChroma to support a wide range of devices with minimal effort, but we'll see if that ends up being the case.
+ Other apps may be supported automatically if they are detected as a device by Razer Synapse. Official support for other apps is not out of the question, but unlikely to happen any time soon. There's currently no standard for controlling RGB lighting, so every company has their own way of doing it, which makes it extremely difficult to write a single API that supports more than one app.
 
  ### Does this work on beta branches of the game?
  It works on the x86-64 branch. Other branches haven't been tested but they will probably work as well.
@@ -32,7 +32,7 @@
  Eventually, yes.
 
  ### Does this work with non-English keyboards?
- Probably, but I can't guarantee individual keys will light up properly since both the GChroma API and the Razer Synapse SDK use English letters.
+ Probably, but I can't guarantee individual keys will light up properly since the GChroma API only uses the English key identifiers.
 
 # Legal
  - RAZER is the trademark or registered trademark of Razer Inc. GChroma is not affiliated in any way with Razer.

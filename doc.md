@@ -38,7 +38,7 @@ end
 function ENT:Use( ply )
 	if CLIENT and gchroma then
 		gchroma.SetDeviceColor( gchroma, GCHROMA_DEVICE_ALL, gchroma.ToVector( self:GetColor() ) )
-		gchroma.CreateEffect( gchroma )
+		gchroma.CreateEffect()
 	end
 end
  ```
