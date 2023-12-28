@@ -34,6 +34,8 @@ local function GChroma_Init()
 		gchroma.CreateEffect()
 		MsgC( Color( 0, 255, 0 ), "\nGChroma client-side API loaded successfully.\n" )
 		hook.Run( "GChromaInitialized" )
+	else
+		MsgC( Color( 255, 0, 0 ), "WARNING! GChroma failed to initialize. Make sure the binary module is up to date and properly installed." )
 	end
 end
 hook.Add( "InitPostEntity", "Chroma_Init", GChroma_Init )
