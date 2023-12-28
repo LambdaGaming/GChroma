@@ -1,7 +1,13 @@
-require( "gchroma" )
+if util.IsBinaryModuleInstalled( "gchroma" ) then
+	require( "gchroma" )
+else
+	MsgC( Color( 255, 0, 0 ), "WARNING! GChroma DLL module failed to load. Please follow the install instructions: https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726" )
+end
+
+gchroma = gchroma or {}
 
 local function GChroma_Test()
-	if gchroma then
+	if gchroma.Loaded then
 		local i = 1
 		local colors = {
 			GCHROMA_COLOR_RED,
@@ -23,20 +29,17 @@ end
 concommand.Add( "gchroma_test", GChroma_Test )
 
 local function GChroma_Init()
-	if gchroma then
+	if gchroma.Loaded then
 		gchroma.ResetDevice( GCHROMA_DEVICE_ALL ) --Doesn't do anything here but tell the SDK to wake up
 		gchroma.CreateEffect()
 		MsgC( Color( 0, 255, 0 ), "\nGChroma client-side API loaded successfully.\n" )
 		hook.Run( "GChromaInitialized" )
-	else
-		chat.AddText( Color( 0, 255, 0 ), "WARNING! GChroma DLL module failed to load. Please follow the install instructions: https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726" )
-		hook.Run( "GChromaInitializationFailure" )
 	end
 end
 hook.Add( "InitPostEntity", "Chroma_Init", GChroma_Init )
 
 local function SendFunctions()
-	if gchroma then
+	if gchroma.Loaded then
 		local tbl = net.ReadTable()
 		for _,v in ipairs( tbl ) do
 			if v[1] == GCHROMA_FUNC_DEVICECOLOR then

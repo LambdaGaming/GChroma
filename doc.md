@@ -186,12 +186,6 @@ end
 
   &nbsp;
 
- ## GChromaInitializationFailure
-  ### Description
-  Gets called when the module fails to load.
-
-  &nbsp;
-
  ## GChromaColorSet
   ### Description
   Gets called when a color is set.

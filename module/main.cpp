@@ -220,6 +220,8 @@ GMOD_MODULE_OPEN()
 			LUA->SetField( -2, "ResetDevice" );
 			LUA->PushCFunction( GChroma_CreateEffect );
 			LUA->SetField( -2, "CreateEffect" );
+			LUA->PushBool( true );
+			LUA->SetField( -2, "Loaded" );
 		LUA->SetField( -2, "gchroma" );
 	LUA->Pop();
 	return 0;
