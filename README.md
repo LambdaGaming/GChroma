@@ -1,6 +1,8 @@
 ![GChroma Logo](logo.png)
 
 # About
+ NOTE: I've switched to Linux and no longer have the ability to maintain this addon in it's current state, and I do not have any interest in making it work on Linux, so it has been archived.
+
  GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows 10/11, and supports x86 and x64 architectures.  
  [API documentation](https://github.com/LambdaGaming/GChroma/blob/main/doc.md)  
  [GChroma Lua Base](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)  
@@ -21,15 +23,8 @@
  ### Does this work on servers?
  Yes, but the server needs the Lua base for it to work on your end. Servers do not need the binary module.
 
- ### Are there plans to support other operating systems or RGB apps?
- There are no plans to support Linux or Mac. It's not worth the effort since most people with RGB peripherals are running Windows, and Razer Synapse only officially supports Windows anyway.  
- Other apps may be supported automatically if they are detected as a device by Razer Synapse. Official support for other apps is not out of the question, but unlikely to happen any time soon. There's currently no standard for controlling RGB lighting, so every company has their own way of doing it, which makes it extremely difficult to write a single API that supports more than one app.
-
  ### Does this work on beta branches of the game?
  It works on the x86-64 branch. Other branches haven't been tested but they will probably work as well.
-
- ### Is animation support planned?
- Eventually, yes.
 
  ### Does this work with non-English keyboards?
  Probably, but I can't guarantee individual keys will light up properly since the GChroma API only uses the English key identifiers.
