@@ -1,7 +1,7 @@
 if util.IsBinaryModuleInstalled( "gchroma" ) then
 	require( "gchroma" )
 else
-	MsgC( Color( 255, 0, 0 ), "WARNING! GChroma DLL module failed to load. Please follow the install instructions: https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726" )
+	MsgC( Color( 255, 0, 0 ), "WARNING! GChroma binary module failed to load. Verify that you downloaded the correct version and that it's installed correctly." )
 end
 
 gchroma = gchroma or {}
@@ -16,12 +16,10 @@ local function GChroma_Test()
 		}
 		timer.Create( "GChroma_Init", 0.5, 4, function()
 			if i == 4 then
-				gchroma.ResetDevice( GCHROMA_DEVICE_ALL )
-				gchroma.CreateEffect()
+				gchroma.SetDeviceColor( GCHROMA_DEVICE_ALL, GCHROMA_COLOR_BLACK )
 				return
 			end
 			gchroma.SetDeviceColor( GCHROMA_DEVICE_ALL, colors[i] )
-			gchroma.CreateEffect()
 			i = i + 1
 		end )
 	end
@@ -30,8 +28,7 @@ concommand.Add( "gchroma_test", GChroma_Test )
 
 local function GChroma_Init()
 	if gchroma.Loaded then
-		gchroma.ResetDevice( GCHROMA_DEVICE_ALL ) --Doesn't do anything here but tell the SDK to wake up
-		gchroma.CreateEffect()
+		gchroma.SetDeviceColor( GCHROMA_DEVICE_ALL, GCHROMA_COLOR_DARKGRAY )
 		MsgC( Color( 0, 255, 0 ), "\nGChroma client-side API loaded successfully.\n" )
 		hook.Run( "GChromaInitialized" )
 	else
@@ -48,8 +45,6 @@ local function SendFunctions()
 				gchroma.SetDeviceColor( v[2], v[3] )
 			elseif v[1] == GCHROMA_FUNC_DEVICECOLOREX then
 				gchroma.SetDeviceColorEx( v[2], v[3], v[4], v[5] )
-			elseif v[1] == GCHROMA_FUNC_RESETCOLOR then
-				gchroma.ResetDevice( v[2] )
 			end
 		end
 		gchroma.CreateEffect()

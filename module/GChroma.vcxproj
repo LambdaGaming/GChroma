@@ -73,23 +73,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\GarrysMod\garrysmod\lua\bin</OutDir>
+    <OutDir>.\GChroma\build</OutDir>
     <TargetName>gmcl_gchroma_win32</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>gmcl_gchroma_win32</TargetName>
-    <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\GarrysMod\garrysmod\lua\bin</OutDir>
+    <OutDir>.\GChroma\build</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\GarrysMod\garrysmod\lua\bin</OutDir>
+    <OutDir>.\GChroma\build</OutDir>
     <TargetName>gmcl_gchroma_win64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>gmcl_gchroma_win64</TargetName>
-    <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\GarrysMod\garrysmod\lua\bin</OutDir>
+    <OutDir>.\GChroma\build</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>CChromaEditor/CChromaEditorLibrary;gmod-module-base/include/GarrysMod/Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>OpenRGB-cppSDK/include;gmod-module-base/include/GarrysMod/Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -112,7 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>gmod-module-base/include/GarrysMod/Lua;CChromaEditor/CChromaEditorLibrary</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>gmod-module-base/include/GarrysMod/Lua;OpenRGB-cppSDK/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>gmod-module-base/include/GarrysMod/Lua;CChromaEditor/CChromaEditorLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>gmod-module-base/include/GarrysMod/Lua;OpenRGB-cppSDK/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -143,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>gmod-module-base/include/GarrysMod/Lua;CChromaEditor/CChromaEditorLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>gmod-module-base/include/GarrysMod/Lua;OpenRGB-cppSDK/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,11 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="chroma.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="chroma.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

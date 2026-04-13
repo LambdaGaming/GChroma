@@ -1,7 +1,7 @@
-[submodule "module/CChromaEditor"]
-	path = module/CChromaEditor
-	url = https://github.com/razerofficial/CChromaEditor
 [submodule "module/gmod-module-base"]
 	path = module/gmod-module-base
 	url = https://github.com/Facepunch/gmod-module-base
 	branch = development
+[submodule "module/OpenRGB-cppSDK"]
+	path = module/OpenRGB-cppSDK
+	url = https://github.com/Youda008/OpenRGB-cppSDK

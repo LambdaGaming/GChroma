@@ -10,16 +10,6 @@ function gchroma.SetDeviceColor( device, color )
 	table.insert( gchroma.Pending, { GCHROMA_FUNC_DEVICECOLOR, device, color } )
 end
 
-function gchroma.SetDeviceColorEx( device, color, row, col )
-	assert( device and color and row and col, "Missing one or more arguments for gchroma.SetDeviceColorEx" )
-	table.insert( gchroma.Pending, { GCHROMA_FUNC_DEVICECOLOREX, device, color, row, col } )
-end
-
-function gchroma.ResetDevice( device )
-	assert( device, "Missing argument for gchroma.ResetDevice" )
-	table.insert( gchroma.Pending, { GCHROMA_FUNC_RESETCOLOR, device } )
-end
-
 function gchroma.ToVector( color )
 	return Vector( color.r, color.g, color.b )
 end

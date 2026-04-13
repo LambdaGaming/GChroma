@@ -40,3 +40,8 @@ Release/
 x64/
 *.log
 *.psd
+CMakeFiles/
+*.cmake
+CMakeCache.txt
+Makefile
+build/
