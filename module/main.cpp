@@ -41,7 +41,7 @@ LUA_FUNCTION( GChroma_Connect )
 	}
 
 	client = new Client( name );
-	ConnectStatus status = client->connect( ip, port > 0 && port || 6742 );
+	ConnectStatus status = client->connect( ip, port > 0 ? port : 6742 );
 	if ( status != ConnectStatus::Success )
 	{
 		PRINT( "[GChroma] Error connecting to the server." );

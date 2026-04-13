@@ -28,7 +28,11 @@ concommand.Add( "gchroma_test", GChroma_Test )
 
 local function GChroma_Init()
 	if gchroma.Loaded then
-		gchroma.SetDeviceColor( GCHROMA_DEVICE_ALL, GCHROMA_COLOR_DARKGRAY )
+		local success = gchroma.Connect( "GChroma Client", "127.0.0.1" )
+		if !success then
+			return
+		end
+		gchroma.SetDeviceColor( GCHROMA_DEVICE_KEYBOARD, GCHROMA_COLOR_DARKGRAY )
 		MsgC( Color( 0, 255, 0 ), "\nGChroma client-side API loaded successfully.\n" )
 		hook.Run( "GChromaInitialized" )
 	else
