@@ -2,6 +2,8 @@
 	path = module/gmod-module-base
 	url = https://github.com/Facepunch/gmod-module-base
 	branch = development
+	ignore = dirty
 [submodule "module/OpenRGB-cppSDK"]
 	path = module/OpenRGB-cppSDK
 	url = https://github.com/Youda008/OpenRGB-cppSDK
+	ignore = dirty
