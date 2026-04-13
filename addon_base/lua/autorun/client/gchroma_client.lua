@@ -6,6 +6,9 @@ end
 
 gchroma = gchroma or {}
 
+CreateClientConVar( "gchroma_ip", "127.0.0.1", true, false, "IP address of the OpenRGB server. Requires restart after changing." )
+CreateClientConVar( "gchroma_port", 6742, true, false, "Port number of the OpenRGB server. Requires restart after changing." )
+
 local function GChroma_Test()
 	if gchroma.Loaded then
 		local i = 1
@@ -28,11 +31,13 @@ concommand.Add( "gchroma_test", GChroma_Test )
 
 local function GChroma_Init()
 	if gchroma.Loaded then
-		local success = gchroma.Connect( "GChroma Client", "127.0.0.1" )
+		local ip = GetConVar( "gchroma_ip" ):GetString()
+		local port = GetConVar( "gchroma_port" ):GetInt()
+		local success = gchroma.Connect( ip, port )
 		if !success then
 			return
 		end
-		gchroma.SetDeviceColor( GCHROMA_DEVICE_KEYBOARD, GCHROMA_COLOR_DARKGRAY )
+		gchroma.SetDeviceColor( GCHROMA_DEVICE_ALL, GCHROMA_COLOR_DARKGRAY )
 		MsgC( Color( 0, 255, 0 ), "\nGChroma client-side API loaded successfully.\n" )
 		hook.Run( "GChromaInitialized" )
 	else

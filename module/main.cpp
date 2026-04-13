@@ -1,5 +1,5 @@
 #include "GarrysMod/Lua/Interface.h"
-#include "OpenRGB-cppSDK/include/OpenRGB/Client.hpp"
+#include "OpenRGB/Client.hpp"
 
 #define GMMODULE
 #define PRINT( STRING ) \
@@ -16,11 +16,10 @@ using namespace std;
 Client* client;
 
 /*
-	gchroma.Connect( String name, String ip, Number port )
+	gchroma.Connect( String ip, Number port )
 	Description:
 		Initializes a new connection to the specified OpenRGB server
 	Arguments:
-		name - Name of the client; can be anything
 		ip - IP address or domain name of the OpenRGB server (typically 127.0.0.1)
 		port - Optional port number for the server; defaults to 6742
 	Returns: Bool success
@@ -28,10 +27,9 @@ Client* client;
 LUA_FUNCTION( GChroma_Connect )
 {
 	LUA->CheckType( 1, Type::String );
-	LUA->CheckType( 2, Type::String );
-	auto name = LUA->GetString( 1 );
-	auto ip = LUA->GetString( 2 );
-	auto port = LUA->GetNumber( 3 );
+	LUA->CheckType( 2, Type::Number );
+	auto ip = LUA->GetString( 1 );
+	auto port = LUA->GetNumber( 2 );
 
 	if ( client != nullptr )
 	{
@@ -40,8 +38,8 @@ LUA_FUNCTION( GChroma_Connect )
 		return 1;
 	}
 
-	client = new Client( name );
-	ConnectStatus status = client->connect( ip, port > 0 ? port : 6742 );
+	client = new Client( "GChroma Client" );
+	ConnectStatus status = client->connect( ip, port );
 	if ( status != ConnectStatus::Success )
 	{
 		PRINT( "[GChroma] Error connecting to the server." );
