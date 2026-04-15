@@ -1,5 +1,20 @@
+AddCSLuaFile()
+
 gchroma = gchroma or {}
 gchroma.Pending = {}
+
+--Colors
+color_red = Color( 255, 0, 0 )
+color_green = Color( 0, 255, 0 )
+color_blue = Color( 0, 0, 255 )
+color_magenta = Color( 255, 0, 255 )
+color_yellow = Color( 255, 255, 0 )
+color_cyan = Color( 0, 255, 255 )
+color_orange = Color( 255, 89, 0 )
+color_lightgray = Color( 170, 170, 170 )
+color_darkgray = Color( 25, 25, 25 )
+color_pink = Color( 255, 0, 89 )
+color_purple = Color( 89, 0, 255 )
 
 --Device types
 gchroma.DeviceType = {
@@ -19,23 +34,6 @@ gchroma.DeviceType = {
     Speaker = 12,
     Virtual = 13,
     Unknown = 14
-}
-
---Colors
-gchroma.Color = {
-    Black = vector_origin,
-    White = Vector( 255, 255, 255 ),
-    Red = Vector( 255, 0, 0 ),
-    Green = Vector( 0, 255, 0 )
-    Blue = Vector( 0, 0, 255 )
-    Magenta = Vector( 255, 0, 255 )
-    Yellow = Vector( 255, 255, 0 )
-    Cyan = Vector( 0, 255, 255 )
-    Orange = Vector( 255, 89, 0 )
-    LightGray = Vector( 170, 170, 170 )
-    DarkGray = Vector( 25, 25, 25 )
-    Pink = Vector( 255, 0, 89 )
-    Purple = Vector( 89, 0, 255 )
 }
 
 --Function types

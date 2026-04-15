@@ -1,3 +1,5 @@
+gchroma = gchroma or {}
+
 function gchroma.SetDeviceColor( device, color )
 	assert( device and color, "Missing one or more arguments for gchroma.SetDeviceColor" )
 	table.insert( gchroma.Pending, { gchroma.FuncType.DeviceColor, device, color } )
@@ -6,10 +8,6 @@ end
 function gchroma.SetLEDColor( device, name, color )
 	assert( device and name and color, "Missing one or more arguments for gchroma.SetLEDColor" )
 	table.insert( gchroma.Pending, { gchroma.FuncType.LEDColor, device, name, color } )
-end
-
-function gchroma.ToVector( color )
-	return Vector( color.r, color.g, color.b )
 end
 
 util.AddNetworkString( "GChroma_SendFunctions" )

@@ -11,13 +11,13 @@ concommand.Add( "gchroma_test", function()
 	if !gchroma.Loaded then return end
 	local i = 1
 	local colors = {
-		gchroma.Color.Red,
-		gchroma.Color.Green,
-		gchroma.Color.Blue
+		color_red,
+		color_green,
+		color_blue
 	}
 	timer.Create( "GChroma_Init", 0.5, 4, function()
 		if i == 4 then
-			gchroma.SetDeviceColor( gchroma.DeviceType.All, gchroma.Color.Black )
+			gchroma.SetDeviceColor( gchroma.DeviceType.All, color_black )
 			return
 		end
 		gchroma.SetDeviceColor( gchroma.DeviceType.All, colors[i] )
@@ -36,7 +36,7 @@ hook.Add( "InitPostEntity", "Chroma_Init", function()
 	if !success then
 		return
 	end
-	gchroma.SetDeviceColor( gchroma.DeviceType.All, gchroma.Color.DarkGray )
+	gchroma.SetDeviceColor( gchroma.DeviceType.All, color_darkgray )
 	hook.Run( "GChromaInitialized" )
 end )
 
@@ -59,8 +59,4 @@ function gchroma.KeyConvert( key )
 	end
 	local convert = gchroma.Key[input.GetKeyName( key ):upper()]
 	return convert or ""
-end
-
-function gchroma.ToVector( color )
-	return Vector( color.r, color.g, color.b )
 end

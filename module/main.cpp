@@ -15,6 +15,26 @@ using namespace std;
 
 Client* client;
 
+Color ColorConvert( ILuaBase* LUA, int stackPos )
+{
+	LUA->PushNil();
+	Color color = Color::White;
+	while ( LUA->Next( stackPos ) != 0 )
+	{
+		// The keys can be out of order so I'm checking them this way as a fail safe
+		auto key = LUA->GetString( -2 );
+		auto value = LUA->GetNumber( -1 );
+		if ( strcmp( key, "r" ) == 0 )
+			color.r = value;
+		else if ( strcmp( key, "g" ) == 0 )
+			color.g = value;
+		else if ( strcmp( key, "b" ) == 0 )
+			color.b = value;
+		LUA->Pop( 1 );
+	}
+	return color;
+}
+
 LUA_FUNCTION( GChroma_Connect )
 {
 	LUA->CheckType( 1, Type::String );
@@ -66,9 +86,8 @@ LUA_FUNCTION( GChroma_IsConnected )
 LUA_FUNCTION( GChroma_SetDeviceColor )
 {
 	LUA->CheckType( 1, Type::Number );
-	LUA->CheckType( 2, Type::Vector );
+	LUA->CheckType( 2, Type::Table );
 	int type = ( int ) LUA->GetNumber( 1 );
-	auto color = LUA->GetVector( 2 );
 	
 	DeviceListResult list = client->requestDeviceList();
 	if ( list.status != RequestStatus::Success )
@@ -83,7 +102,7 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 		bool success = true;
 		for ( const Device& device : list.devices )
 		{
-			RequestStatus status = client->setDeviceColor( device, Color( color.x, color.y, color.z ) );
+			RequestStatus status = client->setDeviceColor( device, ColorConvert( LUA, 2 ) );
 			success = status == RequestStatus::Success;
 		}
 		LUA->PushBool( success );
@@ -98,7 +117,7 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 			LUA->PushBool( false );
 			return 1;
 		}
-		RequestStatus status = client->setDeviceColor( *device, Color( color.x, color.y, color.z ) );
+		RequestStatus status = client->setDeviceColor( *device, ColorConvert( LUA, 2 ) );
 		LUA->PushBool( status == RequestStatus::Success );
 	}
 	return 1;
@@ -108,10 +127,9 @@ LUA_FUNCTION( GChroma_SetLEDColor )
 {
 	LUA->CheckType( 1, Type::Number );
 	LUA->CheckType( 2, Type::String );
-	LUA->CheckType( 3, Type::Vector );
+	LUA->CheckType( 3, Type::Table );
 	int type = ( int ) LUA->GetNumber( 1 );
 	auto name = LUA->GetString( 2 );
-	auto color = LUA->GetVector( 3 );
 
 	DeviceListResult list = client->requestDeviceList();
 	if ( list.status != RequestStatus::Success )
@@ -131,7 +149,7 @@ LUA_FUNCTION( GChroma_SetLEDColor )
 		return 1;
 	}
 
-	RequestStatus status = client->setLEDColor( *led, Color( color.x, color.y, color.z ) );
+	RequestStatus status = client->setLEDColor( *led, ColorConvert( LUA, 3 ) );
 	LUA->PushBool( status == RequestStatus::Success );
 	return 1;
 }
