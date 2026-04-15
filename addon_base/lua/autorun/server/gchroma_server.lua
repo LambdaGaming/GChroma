@@ -10,6 +10,11 @@ function gchroma.SetDeviceColor( device, color )
 	table.insert( gchroma.Pending, { GCHROMA_FUNC_DEVICECOLOR, device, color } )
 end
 
+function gchroma.SetLEDColor( device, name, color )
+	assert( device and name and color, "Missing one or more arguments for gchroma.SetLEDColor" )
+	table.insert( gchroma.Pending, { GCHROMA_FUNC_LEDCOLOR, device, name, color } )
+end
+
 function gchroma.ToVector( color )
 	return Vector( color.r, color.g, color.b )
 end

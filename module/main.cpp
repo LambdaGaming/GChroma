@@ -15,15 +15,6 @@ using namespace std;
 
 Client* client;
 
-/*
-	gchroma.Connect( String ip, Number port )
-	Description:
-		Initializes a new connection to the specified OpenRGB server
-	Arguments:
-		ip - IP address or domain name of the OpenRGB server (typically 127.0.0.1)
-		port - Optional port number for the server; defaults to 6742
-	Returns: Bool success
-*/
 LUA_FUNCTION( GChroma_Connect )
 {
 	LUA->CheckType( 1, Type::String );
@@ -57,25 +48,18 @@ LUA_FUNCTION( GChroma_Connect )
 	for ( Device& device : list.devices )
 	{
 		const Mode* direct = device.findMode( "Direct" );
-		if ( !direct )
-			continue;
-		client->changeMode( device, *direct );
+		if ( direct )
+			client->changeMode( device, *direct );
 	}
 	PRINT( "[GChroma] Successfully established connection and initialized devices." );
 	LUA->PushBool( true );
 	return 1;
 }
 
-/*
-	gchroma.IsConnected()
-	Description:
-		Returns whether or not the client is currently connected to an OpenRGB server
-	Arguments: None
-	Returns: Bool connected
-*/
 LUA_FUNCTION( GChroma_IsConnected )
 {
-	LUA->PushBool( client->isConnected() );
+	bool connected = client != nullptr && client->isConnected();
+	LUA->PushBool( connected );
 	return 1;
 }
 
@@ -85,7 +69,6 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 	LUA->CheckType( 2, Type::Vector );
 	int type = ( int ) LUA->GetNumber( 1 );
 	auto color = LUA->GetVector( 2 );
-	DeviceType realType = static_cast<DeviceType>( type );
 	
 	DeviceListResult list = client->requestDeviceList();
 	if ( list.status != RequestStatus::Success )
@@ -95,9 +78,105 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 		return 1;
 	}
 
+	if ( type == -1 )
+	{
+		bool success = true;
+		for ( const Device& device : list.devices )
+		{
+			RequestStatus status = client->setDeviceColor( device, Color( color.x, color.y, color.z ) );
+			success = status == RequestStatus::Success;
+		}
+		LUA->PushBool( success );
+	}
+	else
+	{
+		DeviceType realType = static_cast<DeviceType>( type );
+		const Device* device = list.devices.find( realType );
+		if ( device == nullptr )
+		{
+			PRINT( "[GChroma] Device doesn't exist." );
+			LUA->PushBool( false );
+			return 1;
+		}
+		RequestStatus status = client->setDeviceColor( *device, Color( color.x, color.y, color.z ) );
+		LUA->PushBool( status == RequestStatus::Success );
+	}
+	return 1;
+}
+
+LUA_FUNCTION( GChroma_SetLEDColor )
+{
+	LUA->CheckType( 1, Type::Number );
+	LUA->CheckType( 2, Type::String );
+	LUA->CheckType( 3, Type::Vector );
+	int type = ( int ) LUA->GetNumber( 1 );
+	auto name = LUA->GetString( 2 );
+	auto color = LUA->GetVector( 3 );
+
+	DeviceListResult list = client->requestDeviceList();
+	if ( list.status != RequestStatus::Success )
+	{
+		PRINT( "[GChroma] Error fetching device list." );
+		LUA->PushBool( false );
+		return 1;
+	}
+
+	DeviceType realType = static_cast<DeviceType>( type );
 	const Device* device = list.devices.find( realType );
-	client->setDeviceColor( *device, Color( color.x, color.y, color.z ) );
-	return 0;
+	const LED* led = device->findLED( name );
+	if ( device == nullptr || led == nullptr )
+	{
+		PRINT( "[GChroma] Device or LED doesn't exist." );
+		LUA->PushBool( false );
+		return 1;
+	}
+
+	RequestStatus status = client->setLEDColor( *led, Color( color.x, color.y, color.z ) );
+	LUA->PushBool( status == RequestStatus::Success );
+	return 1;
+}
+
+LUA_FUNCTION( GChroma_GetDeviceInfo )
+{
+	LUA->CheckType( 1, Type::Number );
+	int type = ( int ) LUA->GetNumber( 1 );
+
+	DeviceListResult list = client->requestDeviceList();
+	if ( list.status != RequestStatus::Success )
+	{
+		PRINT( "[GChroma] Error fetching device list." );
+		LUA->PushNil();
+		return 1;
+	}
+
+	DeviceType realType = static_cast<DeviceType>( type );
+	const Device* device = list.devices.find( realType );
+	if ( device == nullptr )
+	{
+		PRINT( "[GChroma] Device doesn't exist." );
+		LUA->PushBool( false );
+		return 1;
+	}
+
+	LUA->CreateTable();
+	LUA->PushString( device->name.c_str() );
+	LUA->SetField( -2, "name" );
+	LUA->PushString( device->description.c_str() );
+	LUA->SetField( -2, "description" );
+	LUA->PushNumber( ( int ) device->type );
+	LUA->SetField( -2, "type" );
+	LUA->CreateTable();
+	for ( const LED& led : device->leds )
+	{
+		LUA->CreateTable();
+		LUA->PushNumber( led.idx );
+		LUA->SetField( -2, "index" );
+		LUA->PushNumber( led.value );
+		LUA->SetField( -2, "value" );
+		LUA->SetField( -2, led.name.c_str() );
+	}
+	LUA->SetField( -2, "leds" );
+	return 1;
 }
 
 GMOD_MODULE_OPEN()
@@ -110,6 +189,10 @@ GMOD_MODULE_OPEN()
 			LUA->SetField( -2, "IsConnected" );
 			LUA->PushCFunction( GChroma_SetDeviceColor );
 			LUA->SetField( -2, "SetDeviceColor" );
+			LUA->PushCFunction( GChroma_SetLEDColor );
+			LUA->SetField( -2, "SetLEDColor" );
+			LUA->PushCFunction( GChroma_GetDeviceInfo );
+			LUA->SetField( -2, "GetDeviceInfo" );
 			LUA->PushBool( true );
 			LUA->SetField( -2, "Loaded" );
 		LUA->SetField( -2, "gchroma" );
@@ -119,6 +202,7 @@ GMOD_MODULE_OPEN()
 
 GMOD_MODULE_CLOSE()
 {
+	client->loadProfile( "Default" );
 	client->disconnect();
 	delete client;
 	return 0;
