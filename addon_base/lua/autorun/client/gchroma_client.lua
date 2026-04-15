@@ -39,7 +39,6 @@ hook.Add( "InitPostEntity", "Chroma_Init", function()
 		return
 	end
 	gchroma.SetDeviceColor( GCHROMA_DEVICE_ALL, GCHROMA_COLOR_DARKGRAY )
-	MsgC( Color( 0, 255, 0 ), "\nGChroma client-side API loaded successfully.\n" )
 	hook.Run( "GChromaInitialized" )
 end )
 

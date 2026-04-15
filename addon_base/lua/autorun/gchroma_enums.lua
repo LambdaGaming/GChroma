@@ -34,3 +34,8 @@ GCHROMA_COLOR_PURPLE = Vector( 89, 0, 255 )
 --Function types
 GCHROMA_FUNC_DEVICECOLOR = 1
 GCHROMA_FUNC_LEDCOLOR = 2
+
+local r = Color( 255, 0, 0 )
+local g = Color( 0, 255, 0 )
+local b = Color( 0, 0, 255 )
+MsgC( r, "GC", g, "hro", b, "ma", color_white, " v2.0 by OPGman successfully loaded.\n" )
