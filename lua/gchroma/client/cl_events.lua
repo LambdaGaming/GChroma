@@ -129,16 +129,6 @@ hook.Add( "PlayerEndVoice", "GChromaEndVoice", function()
 	gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, convert, plyColor )
 end )
 
-net.Receive( "GChromaUpdateSlots", function()
-	local ply = LocalPlayer()
-	if !gchroma.IsConnected() or !IsValid( ply ) then return end
-	local plyColor = ply:GetPlayerColor():ToColor()
-	for k,v in pairs( GetEmptySlots( ply ) ) do
-		local color = v[2] == -1 and Color( 145, 80, 0 ) or plyColor
-		gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, gchroma.Key[tostring( v[1] + 1 )], color )
-	end
-end )
-
 hook.Add( "PlayerChangedTeam", "GChromaDarkRPChangedTeam", function()
 	if gchroma.IsConnected() then
 		GChromaPlayerInit()
