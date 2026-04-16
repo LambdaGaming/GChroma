@@ -1,33 +1,35 @@
 ![GChroma Logo](logo.png)
 
 # About
- NOTE: I've switched to Linux and no longer have the ability to maintain this addon in it's current state, and I do not have any interest in making it work on Linux, so it has been archived.
+ GChroma is a link between Garry's Mod and OpenRGB. It allows addons to interact with client RGB hardware through a Lua API. The module is available for the 64-bit version of Garry's Mod on Windows 10/11 and Linux.  
+ [API documentation](dev.md)  
+ [Steam Workshop addon](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)  
+ [Old Razer Synapse version](https://github.com/LambdaGaming/GChroma/releases/tag/v1.4)
 
- GChroma is a link between Garry's Mod and Razer Synapse. It allows developers to integrate Chroma support into their addons through Lua. The module is available for Windows 10/11, and supports x86 and x64 architectures.  
- [API documentation](https://github.com/LambdaGaming/GChroma/blob/main/doc.md)  
- [GChroma Lua Base](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)  
- [GChroma Sandbox Module](https://steamcommunity.com/sharedfiles/filedetails/?id=2297434661)
-
-# Installing
- 1. Make sure you have Razer Synapse 3 installed and running with the Chroma Connect module installed as well, and obviously make sure you're using a device that's supported by Razer Synapse 3. (Older Synapse versions are unsupported and will likely not work.)
- 2. Download the [GChroma base addon.](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)
- 3. Download the latest [GChroma binary module.](https://github.com/LambdaGaming/GChroma/releases) Make sure you download the 32-bit version unless you're using the x86-64 beta branch.
- 4. Move the downloaded binary module to `[Steam directory]/garrysmod/garrysmod/lua/bin`. You might have to create the bin folder since it doesn't exist by default.
+# How to Use
+ 1. Make sure you're running the x86-64 beta branch for Garry's Mod, and that the game is set to launch in 64-bit mode. GChroma does not support 32-bit mode.
+ 2. Install [OpenRGB](https://openrgb.org/), launch it, and start the SDK server. If needed, you can change the IP and port that GChroma uses through the `gchroma_ip` and `gchroma_port` client-side ConVars.
+ 3. Download the [GChroma base addon](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726) and the latest [GChroma binary module.](https://github.com/LambdaGaming/GChroma/releases) If you're running Garry's Mod through Proton on Linux, you will need to download the Windows version of the module.
+ 4. Move the downloaded binary module to `[Steam installation]/steamapps/common/GarrysMod/garrysmod/lua/bin`. You might have to create the bin folder since it doesn't exist by default.
  5. Download GChroma-supported addons or start developing your own. Enjoy!
 
-# Contributing
-- If you want to contribute by making an issue or pull request, please read the [contributing guidelines](https://lambdagaming.github.io/contributing.html) first.
-- The project files for Visual Studio are included. The required header files are linked in this repo as submodules.
+# Default Lighting Events
+ The base addon comes with default lighting events that light up keys or devices at specific times. The following events are currently implemented:
+ - When spawning, certain sandbox keybinds will light up on your keyboard in your player color. These keybinds include the weapon slot number keys, noclip, regular and team text chats, spawn menu, context menu, flashlight, and voice chat.
+ - When pressing the aforementioned keys, they will light up white until the action you're performing with them ends.
+ - When you die, all devices will light up red until you respawn.
+
+# Building
+1. Clone this repo with git. Don't download the zip because the submodules won't be included.
+2. Install CMake.
+3. Run `build_linux.sh` if you're on Linux and `build_windows.bat` if you're on Windows. The dll files will be copied to the modules folder and the build scripts will automatically clean up all other generated files.
 
 # FAQs
  ### Does this work on servers?
- Yes, but the server needs the Lua base for it to work on your end. Servers do not need the binary module.
+ Yes, but the server needs the Lua base for all features to work. Servers do not need the binary module.
 
- ### Does this work on beta branches of the game?
- It works on the x86-64 branch. Other branches haven't been tested but they will probably work as well.
+ ### Will this work with my device?
+ That depends entirely on whether or not your device is supported by OpenRGB. There's a good chance it will work, but if it doesn't it's out of my control.
 
- ### Does this work with non-English keyboards?
- Probably, but I can't guarantee individual keys will light up properly since the GChroma API only uses the English key identifiers.
-
-# Legal
- - RAZER is the trademark or registered trademark of Razer Inc. GChroma is not affiliated in any way with Razer.
+ ### Why did you switch to OpenRGB? What was wrong with Razer Synapse?
+ The main reason is because I don't use Windows regularly anymore, so if I wanted to keep this project going I had to switch to something that supports Linux. OpenRGB also has the benefit of supporting a much wider range of devices and allowing for more simplistic code.
