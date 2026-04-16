@@ -2,16 +2,16 @@ AddCSLuaFile()
 
 gchroma = { Version = "2.0", Pending = {} }
 
-for _,v in pairs( file.Find( "gchroma/*", "LUA" ) ) do
-	include( "gchroma/"..v )
-	AddCSLuaFile( "gchroma/"..v )
-end
-
 for _,v in pairs( file.Find( "gchroma/client/*", "LUA" ) ) do
 	AddCSLuaFile( "gchroma/client/"..v )
 	if CLIENT then
 		include( "gchroma/client/"..v )
 	end
+end
+
+for _,v in pairs( file.Find( "gchroma/*", "LUA" ) ) do
+	include( "gchroma/"..v )
+	AddCSLuaFile( "gchroma/"..v )
 end
 
 if SERVER then

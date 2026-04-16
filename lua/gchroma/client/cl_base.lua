@@ -8,7 +8,7 @@ CreateClientConVar( "gchroma_ip", "127.0.0.1", true, false, "IP address of the O
 CreateClientConVar( "gchroma_port", 6742, true, false, "Port number of the OpenRGB server. Requires restart after changing." )
 
 concommand.Add( "gchroma_test", function()
-	if !gchroma.Loaded then return end
+	if !gchroma.IsConnected() then return end
 	local i = 1
 	local colors = {
 		color_red,
@@ -41,7 +41,7 @@ hook.Add( "InitPostEntity", "Chroma_Init", function()
 end )
 
 net.Receive( "GChroma_SendFunctions", function()
-	if !gchroma.Loaded then return end
+	if !gchroma.IsConnected() then return end
 	local tbl = net.ReadTable()
 	for _,v in ipairs( tbl ) do
 		if v[1] == gchroma.FuncType.DeviceColor then

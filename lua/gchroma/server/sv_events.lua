@@ -6,19 +6,18 @@ hook.Add( "PlayerSpawn", "GChromaPlayerSpawn", function( ply )
 	end
 end )
 
+local loadQueue = {}
 hook.Add( "PlayerInitialSpawn", "GChromaPlayerInitSpawn", function( ply )
-	hook.Add( "SetupMove", ply, function( self, ply, _, cmd )
-		if self == ply and !cmd:IsForced() then
-			hook.Run( "PlayerFullLoad", self )
-			hook.Remove( "SetupMove", self )
-		end
-	end )
+	loadQueue[ply] = true
 end )
 
-hook.Add( "PlayerFullLoad", "GChromaFullyLoaded", function( ply )
-	if gchroma then
-		net.Start( "GChromaPlayerInit" )
-		net.Send( ply )
+hook.Add( "StartCommand", "GChromaFullyLoaded", function( ply, cmd )
+	if loadQueue[ply] and !cmd:IsForced() then
+		if gchroma then
+			net.Start( "GChromaPlayerInit" )
+			net.Send( ply )
+		end
+		loadQueue[ply] = nil
 	end
 end )
 
