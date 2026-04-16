@@ -217,6 +217,8 @@ GMOD_MODULE_OPEN()
 			LUA->SetField( -2, "GetDeviceInfo" );
 			LUA->PushBool( true );
 			LUA->SetField( -2, "Loaded" );
+			LUA->PushString( "2.0" );
+			LUA->SetField( -2, "BinaryVersion" );
 		LUA->SetField( -2, "gchroma" );
 	LUA->Pop();
 	return 0;

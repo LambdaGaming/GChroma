@@ -20,7 +20,4 @@ if SERVER then
 	end
 end
 
-local r = Color( 255, 0, 0 )
-local g = Color( 0, 255, 0 )
-local b = Color( 0, 0, 255 )
-MsgC( r, "GC", g, "hro", b, "ma", color_white, " v", gchroma.Version, " by OPGman successfully loaded.\n" )
+MsgC( color_red, "GC", color_green, "hro", color_blue, "ma", color_white, " v", gchroma.Version, " by OPGman successfully loaded.\n" )
