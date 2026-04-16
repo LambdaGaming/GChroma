@@ -1,6 +1,10 @@
 #include "GarrysMod/Lua/Interface.h"
 #include "OpenRGB/Client.hpp"
 
+#ifdef linux
+#include <cstring>
+#endif
+
 #define GMMODULE
 #define PRINT( STRING ) \
 	LUA->PushSpecial( SPECIAL_GLOB ); \
