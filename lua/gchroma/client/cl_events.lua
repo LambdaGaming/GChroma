@@ -16,7 +16,7 @@ end
 
 net.Receive( "GChromaPlayerInit", function()
 	local ply = LocalPlayer()
-	if !gchroma.IsConnected() or !IsValid( ply ) then return end
+	if !gchroma.Ready() or !IsValid( ply ) then return end
 	local plyColor = ply:GetPlayerColor():ToColor()
 	local keys = {
 		gchroma.KeyConvert( "noclip" ),
@@ -41,7 +41,7 @@ net.Receive( "GChromaPlayerInit", function()
 end )
 
 hook.Add( "StartChat", "GChromaOpenChat", function( teamChat )
-	if !gchroma.IsConnected() then return end
+	if !gchroma.Ready() then return end
 	local normalChat = gchroma.KeyConvert( "messagemode" )
 	local chatTeam = gchroma.KeyConvert( "messagemode2" )
 	if teamChat then
@@ -53,7 +53,7 @@ end )
 
 hook.Add( "FinishChat", "GChromaCloseChat", function()
 	local ply = LocalPlayer()
-	if !gchroma.IsConnected() or !IsValid( ply ) then return end
+	if !gchroma.Ready() or !IsValid( ply ) then return end
 	local plyColor = ply:GetPlayerColor():ToColor()
 	local normalChat = gchroma.KeyConvert( "messagemode" )
 	local teamChat = gchroma.KeyConvert( "messagemode2" )
@@ -63,7 +63,7 @@ end )
 
 net.Receive( "GChromaNoclip", function()
 	local ply = LocalPlayer()
-	if !gchroma.IsConnected() or !IsValid( ply ) then return end
+	if !gchroma.Ready() or !IsValid( ply ) then return end
 	local enable = net.ReadBool()
 	local convert = gchroma.KeyConvert( "noclip" )
 	if enable then
@@ -75,28 +75,28 @@ net.Receive( "GChromaNoclip", function()
 end )
 
 hook.Add( "OnSpawnMenuOpen", "GChromaOpenSpawnMenu", function()
-	if !gchroma.IsConnected() then return end
+	if !gchroma.Ready() then return end
 	local convert = gchroma.KeyConvert( "menu" )
 	gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, convert, color_white )
 end )
 
 hook.Add( "OnSpawnMenuClose", "GChromaCloseSpawnMenu", function()
 	local ply = LocalPlayer()
-	if !gchroma.IsConnected() or !IsValid( ply ) then return end
+	if !gchroma.Ready() or !IsValid( ply ) then return end
 	local plyColor = ply:GetPlayerColor():ToColor()
 	local convert = gchroma.KeyConvert( "menu" )
 	gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, convert, plyColor )
 end )
 
 hook.Add( "OnContextMenuOpen", "GChromaOpenContextMenu", function()
-	if !gchroma.IsConnected() then return end
+	if !gchroma.Ready() then return end
 	local convert = gchroma.KeyConvert( "menu_context" )
 	gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, convert, color_white )
 end )
 
 hook.Add( "OnContextMenuClose", "GChromaCloseContextMenu", function()
 	local ply = LocalPlayer()
-	if !gchroma.IsConnected() or !IsValid( ply ) then return end
+	if !gchroma.Ready() or !IsValid( ply ) then return end
 	local plyColor = ply:GetPlayerColor():ToColor()
 	local convert = gchroma.KeyConvert( "menu_context" )
 	gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, convert, plyColor )
@@ -104,7 +104,7 @@ end )
 
 net.Receive( "GChromaFlashlight", function()
 	local ply = LocalPlayer()
-	if !gchroma.IsConnected() or !IsValid( ply ) then return end
+	if !gchroma.Ready() or !IsValid( ply ) then return end
 	local enabled = net.ReadBool()
 	local convert = gchroma.KeyConvert( "impulse 100" )
 	if enabled then
@@ -116,21 +116,21 @@ net.Receive( "GChromaFlashlight", function()
 end )
 
 hook.Add( "PlayerStartVoice", "GChromaStartVoice", function()
-	if !gchroma.IsConnected() then return end
+	if !gchroma.Ready() then return end
 	local convert = gchroma.KeyConvert( "voicerecord" )
 	gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, convert, color_white )
 end )
 
 hook.Add( "PlayerEndVoice", "GChromaEndVoice", function()
 	local ply = LocalPlayer()
-	if gchroma.IsConnected() or !IsValid( ply ) then return end
+	if gchroma.Ready() or !IsValid( ply ) then return end
 	local plyColor = ply:GetPlayerColor():ToColor()
 	local convert = gchroma.KeyConvert( "voicerecord" )
 	gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, convert, plyColor )
 end )
 
 hook.Add( "PlayerChangedTeam", "GChromaDarkRPChangedTeam", function()
-	if gchroma.IsConnected() then
+	if gchroma.Ready() then
 		GChromaPlayerInit()
 	end
 end )

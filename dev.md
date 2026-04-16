@@ -21,6 +21,11 @@
 ### Description
  Returns true if the addon is currently connected to an OpenRGB server, otherwise false.
 
+## gchroma.Ready()
+### Scope: Client
+### Description
+ Returns true if the binary module is loaded *and* the addon is currently connected to an OpenRGB server.
+
 ## gchroma.KeyConvert( `number` key OR `string` binding )
 ### Scope: Client
 ### Description
@@ -94,7 +99,6 @@ gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, gchroma.Key.M, color_red )
  1. `player` ply - Player who will receive the effects
 
 # Hooks
- All hooks are client-side only and return the values of the functions associated with them.
 ## GChromaInitialized
 ### Description
   Gets called when the module is first loaded. Does not get called if the module fails to load.
