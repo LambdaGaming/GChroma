@@ -1,19 +1,3 @@
-local function GetEmptySlots( ply )
-	local slots = {
-		{ 0, -1 },
-		{ 1, -1 },
-		{ 2, -1 },
-		{ 3, -1 },
-		{ 4, -1 },
-		{ 5, -1 }
-	}
-	for k,v in pairs( ply:GetWeapons() ) do
-		local slot = v:GetSlot()
-		slots[slot + 1][2] = slot
-	end
-	return slots
-end
-
 net.Receive( "GChromaPlayerInit", function()
 	local ply = LocalPlayer()
 	if !gchroma.Ready() or !IsValid( ply ) then return end
@@ -33,9 +17,8 @@ net.Receive( "GChromaPlayerInit", function()
 		gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, v, plyColor )
 	end
 	timer.Simple( 0.1, function()
-		for k,v in pairs( GetEmptySlots( ply ) ) do
-			local color = v[2] == -1 and Color( 145, 80, 0 ) or plyColor
-			gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, gchroma.Key[tostring( v[1] + 1 )], color )
+		for i = 0, 5 do
+			gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, gchroma.Key[tostring( i )], plyColor )
 		end
 	end )
 end )
@@ -123,7 +106,7 @@ end )
 
 hook.Add( "PlayerEndVoice", "GChromaEndVoice", function()
 	local ply = LocalPlayer()
-	if gchroma.Ready() or !IsValid( ply ) then return end
+	if !gchroma.Ready() or !IsValid( ply ) then return end
 	local plyColor = ply:GetPlayerColor():ToColor()
 	local convert = gchroma.KeyConvert( "voicerecord" )
 	gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, convert, plyColor )
