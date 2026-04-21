@@ -8,6 +8,7 @@ mv "gmsv_gchroma_linux64.dll" "gmcl_gchroma_linux64.dll"
 # Cleanup all the crap
 rm CMakeCache.txt
 rm -r CMakeFiles
+rm -r out
 rm *.cmake
 rm Makefile
 echo "Finished"
