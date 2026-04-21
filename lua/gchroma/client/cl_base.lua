@@ -23,6 +23,24 @@ concommand.Add( "gchroma_test", function()
 	end )
 end )
 
+concommand.Add( "gchroma_reconnect", function()
+	if gchroma.Ready() then
+		print( "[GChroma] Already connected to a server!" )
+		return
+	end
+	if !gchroma.Loaded then
+		print( "[GChroma] Reconnect failed. The binary module was never initialized." )
+		return
+	end
+	local ip = cvars.String( "gchroma_ip" )
+	local port = cvars.Number( "gchroma_port" )
+	local success = gchroma.Connect( ip, port )
+	if success then
+		gchroma.SetDeviceColor( gchroma.DeviceType.All, color_darkgray )
+		hook.Run( "GChroma_OnInitialized" )
+	end
+end )
+
 hook.Add( "InitPostEntity", "Chroma_Init", function()
 	if !gchroma.Loaded then
 		MsgC( color_red, "WARNING! GChroma failed to initialize. Make sure the binary module is up to date and properly installed.\n" )
