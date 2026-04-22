@@ -99,9 +99,18 @@ gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, gchroma.Key.M, color_red )
  1. `player` ply - Player who will receive the effects
 
 # Hooks
-## GChromaInitialized
+## GChroma_OnInitialized
+### Scope: Client
 ### Description
-  Gets called when the module is first loaded. Does not get called if the module fails to load.
+ Gets called when the module is first loaded. Does not get called if the module fails to load.
 
 # Enums
  See [gchroma_enums.lua](lua/gchroma/sh_enums.lua)
+
+# Console Commands
+ All console commands are client-side only.
+## gchroma_test
+ Sets all devices to red, green, blue, and black at 0.5 second intervals.
+
+## gchroma_reconnect
+ Attempts to reconnect to an OpenRGB server if the connection failed during game initialization or was lost at some point.
