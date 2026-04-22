@@ -17,7 +17,7 @@ net.Receive( "GChromaPlayerInit", function()
 		gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, v, plyColor )
 	end
 	timer.Simple( 0.1, function()
-		for i = 0, 5 do
+		for i = 1, 6 do
 			gchroma.SetLEDColor( gchroma.DeviceType.Keyboard, gchroma.Key[tostring( i )], plyColor )
 		end
 	end )

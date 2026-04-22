@@ -2,6 +2,8 @@ if util.IsBinaryModuleInstalled( "gchroma" ) then
 	require( "gchroma" )
 end
 
+gchroma = gchroma or {}
+
 CreateClientConVar( "gchroma_ip", "127.0.0.1", true, false, "IP address of the OpenRGB server. Requires restart after changing." )
 CreateClientConVar( "gchroma_port", 6742, true, false, "Port number of the OpenRGB server. Requires restart after changing." )
 
@@ -43,20 +45,19 @@ end )
 
 hook.Add( "InitPostEntity", "Chroma_Init", function()
 	if !gchroma.Loaded then
-		MsgC( color_red, "WARNING! GChroma failed to initialize. Make sure the binary module is up to date and properly installed.\n" )
+		MsgC( color_red, "[GChroma] WARNING: Failed to initialize. Make sure the binary module is up to date and properly installed.\n" )
 		return
 	end
 	if gchroma.BinaryVersion != gchroma.Version then
-		MsgC( color_red, "WARNING! The GChroma binary module is out of date. Please update to the latest version to avoid bugs and/or crashes.\n" )
+		MsgC( color_red, "[GChroma] WARNING: The binary module is out of date. Please update to the latest version to avoid bugs and/or crashes.\n" )
 	end
-	local ip = GetConVar( "gchroma_ip" ):GetString()
-	local port = GetConVar( "gchroma_port" ):GetInt()
+	local ip = cvars.String( "gchroma_ip" )
+	local port = cvars.Number( "gchroma_port" )
 	local success = gchroma.Connect( ip, port )
-	if !success then
-		return
+	if success then
+		gchroma.SetDeviceColor( gchroma.DeviceType.All, color_darkgray )
+		hook.Run( "GChroma_OnInitialized" )
 	end
-	gchroma.SetDeviceColor( gchroma.DeviceType.All, color_darkgray )
-	hook.Run( "GChromaInitialized" )
 end )
 
 net.Receive( "GChroma_SendFunctions", function()

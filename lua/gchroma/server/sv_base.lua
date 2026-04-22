@@ -1,4 +1,4 @@
-gchroma = gchroma or {}
+gchroma = { Pending = {} }
 
 function gchroma.SetDeviceColor( device, color )
 	assert( device and color, "Missing one or more arguments for gchroma.SetDeviceColor" )

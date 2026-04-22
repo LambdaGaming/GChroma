@@ -34,7 +34,7 @@ Color ColorConvert( ILuaBase* LUA, int stackPos )
 			color.g = value;
 		else if ( strcmp( key, "b" ) == 0 )
 			color.b = value;
-		LUA->Pop( 1 );
+		LUA->Pop();
 	}
 	return color;
 }
@@ -217,7 +217,7 @@ GMOD_MODULE_OPEN()
 			LUA->SetField( -2, "GetDeviceInfo" );
 			LUA->PushBool( true );
 			LUA->SetField( -2, "Loaded" );
-			LUA->PushString( "2.0" );
+			LUA->PushString( "2.1" );
 			LUA->SetField( -2, "BinaryVersion" );
 		LUA->SetField( -2, "gchroma" );
 	LUA->Pop();
@@ -226,8 +226,11 @@ GMOD_MODULE_OPEN()
 
 GMOD_MODULE_CLOSE()
 {
-	client->loadProfile( "Default" );
-	client->disconnect();
-	delete client;
+	if ( client != nullptr )
+	{
+		client->loadProfile( "Default" );
+		client->disconnect();
+		delete client;
+	}
 	return 0;
 }
