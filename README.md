@@ -33,3 +33,6 @@
 
  ### Why did you switch to OpenRGB? What was wrong with Razer Synapse?
  The main reason is because I don't use Windows regularly anymore, so if I wanted to keep this project going I had to switch to something that supports Linux. OpenRGB also has the benefit of supporting a much wider range of devices and allowing for more simplistic code.
+
+# Contributing
+ Contributions are welcome! Please read through the [guidelines](https://lambdagaming.github.io/guides/contributing) before submitting an issue or pull request.
