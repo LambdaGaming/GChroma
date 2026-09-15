@@ -9,3 +9,4 @@ CMakeCache.txt
 Makefile
 build/
 .vscode/
+_deps/
