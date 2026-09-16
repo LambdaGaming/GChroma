@@ -34,7 +34,7 @@
  1. `number` key - Key code to be converted.  
  OR  
  1. `string` binding - Binding name for the input.
-### Example 1
+### Example
  Sets the color of the key bound to voice chat to orange.
 ``` lua
 gchroma.SetDeviceColor( gchroma.DeviceType.Keyboard, gchroma.KeyConvert( "voicerecord" ), color_orange )
@@ -46,7 +46,7 @@ gchroma.SetDeviceColor( gchroma.DeviceType.Keyboard, gchroma.KeyConvert( "voicer
  Returns a table containing info about the specified device. Intended to be used for debugging.
 ### Arguments
  1. `number` device - Device ID.
-### Example 1
+### Example
 ``` lua
 PrintTable( gchroma.GetDeviceInfo( gchroma.DeviceType.Keyboard ) )
 ```
@@ -83,7 +83,7 @@ end
  1. `number` device - Device ID. See enums section below for available devices.  
  2. `string` name - Name of the LED. See [enums](lua/gchroma/sh_enums.lua) for a list of popular ones. You can also see what names are available for your devices with `gchroma.GetDeviceInfo()`.
  2. `color` color - Color to set the device. Also accepts a table as long as it has 3 number values.
-### Example 1
+### Example
  Sets a dark gray background color then sets the 1 and M keys to red.
  ``` lua
 gchroma.SetDeviceColor( gchroma.DeviceType.All, color_darkgray )

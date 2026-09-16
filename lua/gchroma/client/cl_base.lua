@@ -58,6 +58,8 @@ hook.Add( "InitPostEntity", "Chroma_Init", function()
 		gchroma.SetDeviceColor( gchroma.DeviceType.All, color_darkgray )
 		hook.Run( "GChroma_OnInitialized" )
 	end
+	net.Start( "GChromaClientReady" )
+	net.SendToServer()
 end )
 
 net.Receive( "GChroma_SendFunctions", function()

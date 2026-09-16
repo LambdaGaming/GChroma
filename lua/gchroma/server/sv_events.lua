@@ -1,7 +1,17 @@
+local wait = true
 util.AddNetworkString( "GChromaPlayerInit" )
 hook.Add( "PlayerSpawn", "GChromaPlayerSpawn", function( ply )
+	--Don't run if the player hasn't been initialized yet, otherwise it could potentially run twice
+	if wait then return end
 	net.Start( "GChromaPlayerInit" )
 	net.Send( ply )
+end )
+
+util.AddNetworkString( "GChromaClientReady" )
+net.Receive( "GChromaClientReady", function( len, ply )
+	net.Start( "GChromaPlayerInit" )
+	net.Send( ply )
+	wait = false
 end )
 
 hook.Add( "PostPlayerDeath", "GChromaPlayerDeath", function( ply )

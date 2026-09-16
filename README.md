@@ -4,7 +4,7 @@
  GChroma is a link between Garry's Mod and OpenRGB. It allows addons to interact with client RGB hardware through a Lua API. The module is available for the 64-bit version of Garry's Mod on Windows 10/11 and Linux.  
  [API documentation](dev.md)  
  [Steam Workshop addon](https://steamcommunity.com/sharedfiles/filedetails/?id=2297412726)  
- [Old Razer Synapse version](https://github.com/LambdaGaming/GChroma/releases/tag/v1.4)
+ [Old Razer Synapse 3 version](https://github.com/LambdaGaming/GChroma/releases/tag/v1.4)
 
 # How to Use
  1. Make sure you're running the x86-64 beta branch for Garry's Mod, and that the game is set to launch in 64-bit mode. GChroma does not support 32-bit mode.
@@ -20,9 +20,9 @@
  - When you die, all devices will light up red until you respawn.
 
 # Building
-1. Clone this repo with git. Don't download the zip because the submodules won't be included.
-2. Install CMake.
-3. Run `build_linux.sh` if you're on Linux and `build_windows.bat` if you're on Windows. The dll files will be copied to the modules folder and the build scripts will automatically clean up all other generated files.
+1. Install Git and CMake.
+2. Clone this repo with Git.
+3. Run `build_linux.sh` if you're on Linux and `build_windows.bat` if you're on Windows. The dll files will be copied to the modules folder.
 
 # FAQs
  ### Does this work on servers?
@@ -32,7 +32,7 @@
  That depends entirely on whether or not your device is supported by OpenRGB. There's a good chance it will work, but if it doesn't it's out of my control.
 
  ### Why did you switch to OpenRGB? What was wrong with Razer Synapse?
- The main reason is because I don't use Windows regularly anymore, so if I wanted to keep this project going I had to switch to something that supports Linux. OpenRGB also has the benefit of supporting a much wider range of devices and allowing for more simplistic code.
+ Razer Synapse is mostly proprietary, doesn't work on Linux, and only supports Razer devices. OpenRGB is fully open source, works on both Windows and Linux, and supports a much wider range of devices. Given the fact that I no longer use Windows outside of testing, switching to OpenRGB was the obvious choice if I wanted to keep this project going.
 
 # Contributing
  Contributions are welcome! Please read through the [guidelines](https://lambdagaming.github.io/guides/contributing) before submitting an issue or pull request.

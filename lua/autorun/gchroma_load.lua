@@ -18,6 +18,6 @@ for _,v in pairs( file.Find( "gchroma/*", "LUA" ) ) do
 	AddCSLuaFile( "gchroma/"..v )
 end
 
-gchroma.Version = "2.1"
+gchroma.Version = "2.1.1"
 
 MsgC( color_red, "GC", color_green, "hro", color_blue, "ma", color_white, " v", gchroma.Version, " by OPGman successfully loaded.\n" )

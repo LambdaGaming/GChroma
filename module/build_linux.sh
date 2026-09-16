@@ -6,7 +6,7 @@ cmake --build . --clean-first
 mv "gmsv_gchroma_linux64.dll" "gmcl_gchroma_linux64.dll"
 
 # Cleanup all the crap
-rm CMakeCache.txt
+find . -name CMakeCache.txt -delete 
 rm -r CMakeFiles
 rm *.cmake
 rm Makefile

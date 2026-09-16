@@ -13,7 +13,7 @@ rem Cleanup all the crap
 del /S *.sln
 del /S *.vcxproj*
 del /S *.cmake
-del CMakeCache.txt
+del /S *CMakeCache*
 rmdir /s /Q CMakeFiles
 rmdir /s /Q Release
 rmdir /s /Q x64
@@ -21,4 +21,6 @@ rmdir /s /Q ALL_BUILD.dir
 rmdir /s /Q INSTALL.dir
 rmdir /s /Q gchroma.dir
 rmdir /s /Q ZERO_CHECK.dir
+rmdir /s /Q bin
 @echo Finished
+pause

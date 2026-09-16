@@ -5,8 +5,6 @@ project(gchroma-project LANGUAGES CXX)
 set(CMAKE_CONFIGURATION_TYPES Release Debug)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(dir ${CMAKE_CURRENT_SOURCE_DIR}/build)
-set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build/_deps)
 
 include(FetchContent)
 FetchContent_Declare(

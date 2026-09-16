@@ -107,14 +107,15 @@ LUA_FUNCTION( GChroma_SetDeviceColor )
 		for ( const Device& device : list.devices )
 		{
 			RequestStatus status = client->setDeviceColor( device, ColorConvert( LUA, 2 ) );
-			success = status == RequestStatus::Success;
+			if ( status != RequestStatus::Success )
+				success = false;
 		}
 		LUA->PushBool( success );
 	}
 	else
 	{
 		DeviceType realType = static_cast<DeviceType>( type );
-		const Device* device = list.devices.find( realType );
+		auto device = list.devices.find( realType );
 		if ( device == nullptr )
 		{
 			PRINT( "[GChroma] Device doesn't exist." );
@@ -144,8 +145,8 @@ LUA_FUNCTION( GChroma_SetLEDColor )
 	}
 
 	DeviceType realType = static_cast<DeviceType>( type );
-	const Device* device = list.devices.find( realType );
-	const LED* led = device->findLED( name );
+	auto device = list.devices.find( realType );
+	auto led = device->findLED( name );
 	if ( device == nullptr || led == nullptr )
 	{
 		PRINT( "[GChroma] Device or LED doesn't exist." );
@@ -172,7 +173,7 @@ LUA_FUNCTION( GChroma_GetDeviceInfo )
 	}
 
 	DeviceType realType = static_cast<DeviceType>( type );
-	const Device* device = list.devices.find( realType );
+	auto device = list.devices.find( realType );
 	if ( device == nullptr )
 	{
 		PRINT( "[GChroma] Device doesn't exist." );
@@ -217,7 +218,7 @@ GMOD_MODULE_OPEN()
 			LUA->SetField( -2, "GetDeviceInfo" );
 			LUA->PushBool( true );
 			LUA->SetField( -2, "Loaded" );
-			LUA->PushString( "2.1" );
+			LUA->PushString( "2.1.1" );
 			LUA->SetField( -2, "BinaryVersion" );
 		LUA->SetField( -2, "gchroma" );
 	LUA->Pop();
